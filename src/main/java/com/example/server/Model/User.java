@@ -20,9 +20,9 @@ public class User {
     @NonNull
     private String password;
 
-    private Set<Roles> role;
+    private Roles role;
 
-    public User(String firstName, String lastName, Set<Roles> role) {
+    public User(String firstName, String lastName, Roles role) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.role = role;
@@ -79,11 +79,11 @@ public class User {
         this.password = password;
     }
 
-    public Set<Roles> getRole() {
+    public Roles getRole() {
         return role;
     }
 
-    public void setRole(Set<Roles> role) {
+    public void setRole(Roles role) {
         this.role = role;
     }
 
