@@ -14,13 +14,14 @@ public class LoginService {
     UserRepository repository;
 
     public User login(String email, String password){
-        return repository.findByEmail(email,password);
+        return repository.findByEmailAndPassword(email,password);
     }
     public boolean chekAdmin(HttpSession session){
         User user= (User) session.getAttribute("user");
-        if((user!=null)&&(user.getRole().equals(Roles.ADMIN)))
-            return true;
-        else
-            return false;
+        return (user != null) && (user.getRole().equals(Roles.ADMIN));
+    }
+    public boolean chekUser(HttpSession session){
+        User user= (User) session.getAttribute("user");
+        return (user != null) && (user.getRole().equals(Roles.USER));
     }
 }

@@ -1,10 +1,12 @@
 package com.example.server.Model;
 
 import com.mongodb.lang.NonNull;
+import net.minidev.json.JSONObject;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Set;
+import javax.validation.constraints.NotEmpty;
 
 
 @Document(collection ="user")
@@ -13,20 +15,18 @@ public class User {
     private String id;
     private String firstName;
     private String lastName;
-    @NonNull
+    @NotEmpty
     private String userName;
-    @NonNull
+    @NotEmpty
     private String email;
-    @NonNull
+    @NotEmpty
     private String password;
-
+    private JSONObject object;
+    @DBRef(db="addresse")
+    private Addresse addresse;
     private Roles role;
 
-    public User(String firstName, String lastName, Roles role) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.role = role;
-    }
+
 
     public String getId() {
         return id;
@@ -85,6 +85,22 @@ public class User {
 
     public void setRole(Roles role) {
         this.role = role;
+    }
+
+    public JSONObject getObject() {
+        return object;
+    }
+
+    public void setObject(JSONObject object) {
+        this.object = object;
+    }
+
+    public Addresse getAdresse() {
+        return addresse;
+    }
+
+    public void setAdresse(Addresse addresse) {
+        this.addresse = addresse;
     }
 
     @Override
