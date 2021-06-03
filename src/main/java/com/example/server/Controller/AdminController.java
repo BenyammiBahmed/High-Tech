@@ -18,10 +18,8 @@ public class AdminController {
     public String AdminIndex(HttpSession session, Model model) {
         if (loginService.chekAdmin(session))
             return "Admin/index";
-        else {
-
-            model.addAttribute("MessageError","email or password incorrect");
+        else
             return "Login";
-        }
+
     }
 }

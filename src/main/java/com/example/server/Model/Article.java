@@ -8,16 +8,19 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 public class Article {
     @Id
-    private String id;
+    private String codeModle;
     private String name;
+    private ArticleType type;
     private Double prix;
+    private String mark;
+    private int quantity;
     private JSONObject preporite;
-    public String getId() {
-        return id;
+    public String getCodeModle() {
+        return codeModle;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setCodeModle(String codeModle) {
+        this.codeModle = codeModle;
     }
 
     public String getName() {
@@ -44,6 +47,19 @@ public class Article {
         this.preporite = preporite;
     }
 
+    public ArticleType getType() {
+        return type;
+    }
 
+    public void setType(ArticleType type) {
+        this.type = type;
+    }
 
+    public String getMark() {
+        return mark;
+    }
+
+    public void setMark(String mark) {
+        this.mark = mark;
+    }
 }

@@ -3,14 +3,13 @@ package com.example.server.Controller;
 import com.example.server.Model.Addresse;
 import com.example.server.Services.LoginService;
 import com.example.server.Model.User;
-import com.example.server.Services.RegistrateService;
+import com.example.server.Services.CompteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 
@@ -21,10 +20,11 @@ public class GeneralController {
     @Autowired
     LoginService loginService;
     @Autowired
-    RegistrateService registrate;
+    CompteService registrate;
 
     @GetMapping("/")
     public String index() {
+
         return "index";
     }
 
@@ -46,13 +46,13 @@ public class GeneralController {
 
     @GetMapping("/RegistratePage")
     public String RegistratePage() {
+        System.out.println("ok");
         return "Registrate";
     }
 
     @PostMapping("/Registrate")
     public String Registrate(User user, Addresse addresse, HttpSession session, Model model) {
-        user.setAdresse(addresse);
-       user= registrate.saveUser(user);
+       user= registrate.Registrate(user);
        if(user!= null)
        {
            session.setAttribute("user",user);

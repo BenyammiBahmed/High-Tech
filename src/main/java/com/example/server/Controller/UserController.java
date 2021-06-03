@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 public class UserController {
     @Autowired
     LoginService login;
-@GetMapping("")
+@GetMapping("/")
 public String indexUser(HttpSession session, Model model){
     if(login.chekUser(session))
     return "index";

@@ -8,13 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class RegistrateService {
+public class CompteService {
     @Autowired
     UserRepository repository;
     @Autowired
     AddresseRepository addresseRepository;
 
-  public User saveUser(User user){
+  public User Registrate(User user){
+
       if(repository.findEmail(user.getEmail()))
           return null;
       else {
