@@ -1,22 +1,23 @@
 package com.example.server.Model;
 
+import lombok.Data;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection ="addresse")
+@Data
 public class Addresse {
     @Id
-    private String id;
+    private String idAddresse;
     private String state;
     private String city;
     private String street;
+    private String ocdeZip;
 
-    public String getId() {
-        return id;
+    public String getIdAddresse() {
+        return idAddresse;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setIdAddresse(String idAddresse) {
+        this.idAddresse = idAddresse;
     }
 
     public String getState() {

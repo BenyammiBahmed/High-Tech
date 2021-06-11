@@ -1,39 +1,37 @@
 package com.example.server.Model;
 
 import com.mongodb.lang.NonNull;
-import net.minidev.json.JSONObject;
+import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotEmpty;
 
 
-@Document(collection ="user")
-public class User {
+@Data
+public class User  {
     @Id
-    private String id;
+    private String idUser;
     private String firstName;
     private String lastName;
     @NotEmpty
-    private String userName;
+    private String username;
     @NotEmpty
     private String email;
     @NotEmpty
     private String password;
-    private JSONObject object;
-    @DBRef(db="addresse")
+
+    @DBRef
     private Addresse addresse;
     private Roles role;
 
 
-
-    public String getId() {
-        return id;
+    public String getIdUser() {
+        return idUser;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setIdUser(String idUser) {
+        this.idUser = idUser;
     }
 
     public String getFirstName() {
@@ -53,12 +51,12 @@ public class User {
     }
 
     @NonNull
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(@NonNull String userName) {
-        this.userName = userName;
+    public void setUsername(@NonNull String username) {
+        this.username = username;
     }
 
     @NonNull
@@ -87,29 +85,13 @@ public class User {
         this.role = role;
     }
 
-    public JSONObject getObject() {
-        return object;
-    }
-
-    public void setObject(JSONObject object) {
-        this.object = object;
-    }
-
-    public Addresse getAdresse() {
+    public Addresse getAddresse() {
         return addresse;
     }
 
-    public void setAdresse(Addresse addresse) {
+    public void setAddresse(Addresse addresse) {
         this.addresse = addresse;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id='" + id + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", role=" + role +
-                '}';
-    }
+
 }

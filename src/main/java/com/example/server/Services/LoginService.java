@@ -24,4 +24,5 @@ public class LoginService {
         User user= (User) session.getAttribute("user");
         return (user != null) && (user.getRole().equals(Roles.USER));
     }
+
 }
