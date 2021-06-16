@@ -4,6 +4,8 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
@@ -14,9 +16,15 @@ public class Command {
     @DBRef
     private User user;
     private Date date;
-    private boolean isDelivred;
+
+    private boolean isDelivred=false;
     @DBRef
     private List<CommandItem> itemList;
+
+    public Command() {
+        LocalDateTime localTime=LocalDateTime.now();
+        this.date=Date.from(localTime.atZone(ZoneId.systemDefault()).toInstant());
+    }
 
     public User getUser() {
         return user;
@@ -40,5 +48,13 @@ public class Command {
 
     public void setDelivred(boolean delivred) {
         isDelivred = delivred;
+    }
+    public double getPriceTotal(){
+        double total=0;
+        for (CommandItem item:
+             itemList) {
+            total=total+item.getPrice()*item.getQuntity();
+        }
+        return total;
     }
 }

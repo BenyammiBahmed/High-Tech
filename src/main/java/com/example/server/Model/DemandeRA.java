@@ -3,7 +3,10 @@ package com.example.server.Model;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 
 @Data
@@ -12,10 +15,21 @@ public class DemandeRA {
     private String idDemandeRA;
     @DBRef
     private CommandItem commandItem;
+    @DBRef
+    private User user;
     private String raison;
     private String response;
-    private boolean isAccepte;
+    private boolean isAccepte=false;
+    private boolean isTreat=false;
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date date;
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private Date datebuy;
+
+    public DemandeRA() {
+        LocalDateTime localTime=LocalDateTime.now();
+        this.date=Date.from(localTime.atZone(ZoneId.systemDefault()).toInstant());
+    }
 
     public String getIdDemandeRA() {
         return idDemandeRA;

@@ -49,4 +49,19 @@ public class PanierIthem {
         mongoOp.save(document,"article");
 
     }
+    private void restimer(){
+        timer.schedule(timerTask,1000*60*2);
+    }
+
+    public Timer getTimer() {
+        return timer;
+    }
+
+    public Article getArticle() {
+        return article;
+    }
+
+    public int getQuntity() {
+        return quntity;
+    }
 }

@@ -7,13 +7,14 @@ import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.awt.print.Pageable;
+import java.util.List;
 
 @Repository
 public interface ArticleRepository extends MongoRepository<Article,String> {
     @Query(value = "{'codeModele' : ?0 }")
     Article findByCodeModle(String id);
     @Query(value = "{'isBlocked': flase}")
-    Page<Article> findArticle(Pageable pageable);
+    List<Article> findArticle(Pageable pageable);
 
 
 }

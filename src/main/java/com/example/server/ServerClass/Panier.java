@@ -11,4 +11,8 @@ public class Panier {
     public ArrayList<PanierIthem> getPanierIthems() {
         return panierIthems;
     }
+    public void CancelPainer(){
+        for(PanierIthem ithem:panierIthems)
+            ithem.getTimer().cancel();
+    }
 }

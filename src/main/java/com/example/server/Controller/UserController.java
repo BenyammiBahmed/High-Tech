@@ -3,13 +3,10 @@ package com.example.server.Controller;
 import com.example.server.Model.Article;
 import com.example.server.Model.User;
 import com.example.server.RepositoryInterFace.AddresseRepository;
-import com.example.server.RepositoryInterFace.ArticleRepository;
 import com.example.server.RepositoryInterFace.UserRepository;
 import com.example.server.RepositoryInterFace.WaitListRespository;
-import com.example.server.Services.CryptoService;
-import com.example.server.Services.LoginService;
-import com.example.server.Services.PanierService;
-import com.example.server.Services.WaitListService;
+import com.example.server.ServerClass.UserCard;
+import com.example.server.Services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,9 +17,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 import java.rmi.RemoteException;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 @Controller
-@RequestMapping("/User")
+@RequestMapping("/USER")
 public class UserController {
     @Autowired
     LoginService login;
@@ -33,13 +33,13 @@ public class UserController {
     @Autowired
     WaitListRespository waitListRespository;
     @Autowired
-    ArticleRepository articleRepository;
+    ArticleService articleService;
     @Autowired
     UserRepository userRepository;
     @Autowired
-    AddresseRepository addresseRepository;
-    @Autowired
-    CryptoService crypto;
+    PaymentService paymentService;
+
+
 
     @GetMapping("/")
     public String indexUser(HttpSession session, Model model) {
@@ -70,12 +70,37 @@ public class UserController {
 //       waitListService.insertWaitList(article,user,quntityAttend);
         return "ok";
     }
+
+    @PostMapping("/Payment")
+    public String payment(UserCard userCard,Double price){
+      String reponse=paymentService.chekCard(userCard,price);
+      if(reponse.equals("invalid code"))
+          //return to panier page
+          return"";
+      else
+          //return to valid payment page
+          return "";
+    }
     @GetMapping("/test")
     @ResponseBody
-    public String user() throws RemoteException {
+    public void user()  {
+        TimerTask timerTask=new TimerTask() {
+            @Override
+            public void run() {
+                System.out.println("ok");
+            }
+        };
+        Timer timer=new Timer();
 
-        System.out.println(crypto.Crype("1122"));
-        return crypto.Crype("1122");
+        timer.schedule(timerTask,4000);
+
+        try {
+            System.out.println("rana zadna");
+            timer.wait(22000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
     }
 
 }

@@ -68,7 +68,7 @@ public class ArticleService {
             properity.remove(f.getName());
         return properity;
     }
-    private List<Article> newArticles(){
+    public List<Article> newArticles(){
 
         Page<Article> page = articleRespository.findAll(PageRequest.of(0, 9, Sort.by(Sort.Direction.ASC, "lastModification")));
         return page.stream().toList();
