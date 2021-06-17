@@ -2,7 +2,6 @@ package com.example.server.Controller;
 
 import com.example.server.Model.Article;
 import com.example.server.Model.User;
-import com.example.server.RepositoryInterFace.AddresseRepository;
 import com.example.server.RepositoryInterFace.UserRepository;
 import com.example.server.RepositoryInterFace.WaitListRespository;
 import com.example.server.ServerClass.UserCard;
@@ -16,10 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
-import java.rmi.RemoteException;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 @Controller
 @RequestMapping("/USER")
@@ -38,8 +34,8 @@ public class UserController {
     UserRepository userRepository;
     @Autowired
     PaymentService paymentService;
-
-
+    @Autowired
+    SearchService searchService;
 
     @GetMapping("/")
     public String indexUser(HttpSession session, Model model) {
@@ -83,23 +79,8 @@ public class UserController {
     }
     @GetMapping("/test")
     @ResponseBody
-    public void user()  {
-        TimerTask timerTask=new TimerTask() {
-            @Override
-            public void run() {
-                System.out.println("ok");
-            }
-        };
-        Timer timer=new Timer();
-
-        timer.schedule(timerTask,4000);
-
-        try {
-            System.out.println("rana zadna");
-            timer.wait(22000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+    public List<Article> user()  {
+     return searchService.newArticles();
 
     }
 

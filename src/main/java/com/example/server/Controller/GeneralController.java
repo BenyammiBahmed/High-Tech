@@ -1,11 +1,13 @@
 package com.example.server.Controller;
 
 import com.example.server.Model.Addresse;
+import com.example.server.Model.Article;
 import com.example.server.Model.Image;
 import com.example.server.RepositoryInterFace.ImageRespository;
 import com.example.server.Services.LoginService;
 import com.example.server.Model.User;
 import com.example.server.Services.CompteService;
+import com.example.server.Services.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -26,7 +30,8 @@ public class GeneralController {
     CompteService registrate;
     @Autowired
     ImageRespository imageRespository;
-
+    @Autowired
+    SearchService searchService;
     @GetMapping("/")
     public String index(Model model) {
         model.addAttribute("error", "dddd");
@@ -50,7 +55,11 @@ public class GeneralController {
             return "redirect:/" + user.getRole().toString();
         }
     }
-
+  @GetMapping("/search")
+  @ResponseBody
+  public List<Article> searchArticle(String search){
+        return searchService.search(search);
+  }
     @RequestMapping(value = "/getPhoto/{id}", method = RequestMethod.GET)
     public @ResponseBody
     void getPhoto(@PathVariable String id, HttpServletResponse response) {

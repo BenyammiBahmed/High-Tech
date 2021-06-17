@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UserRepository extends MongoRepository<User,String> {
-    @Query("{ 'email' : ?0 },{'password': ?0 }")
+    @Query("{$and:[{ 'email' : ?0 },{'password': ?1 }}]")
     User findByEmailAndPassword(String email, String password);
     @Query(value = "{'email' : ?0 }",exists = true)
     boolean findEmail(String email);

@@ -20,6 +20,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 @Service
@@ -46,6 +47,7 @@ public class ArticleService {
             properity = removeClassProperity(properity);
         JSONObject object = new JSONObject(properity);
         article.setPreporite(object);
+        article.setMark(article.getMark().toUpperCase());
         return (articleRespository.save(article) != null);
     }
 
@@ -68,9 +70,5 @@ public class ArticleService {
             properity.remove(f.getName());
         return properity;
     }
-    public List<Article> newArticles(){
 
-        Page<Article> page = articleRespository.findAll(PageRequest.of(0, 9, Sort.by(Sort.Direction.ASC, "lastModification")));
-        return page.stream().toList();
-    }
 }
