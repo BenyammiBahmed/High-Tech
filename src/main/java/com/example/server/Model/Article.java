@@ -4,7 +4,10 @@ import lombok.Data;
 import net.minidev.json.JSONObject;
 import org.springframework.data.annotation.Id;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 @Data
 public class Article {
@@ -17,7 +20,7 @@ public class Article {
     private int quantity;
     private Date lastModification;
     private boolean isBlocked=false;
-    private String imagesIda;
+    private String imageId;
     private JSONObject preporite;
     public String getCodeModele() {
         return codeModele;
@@ -79,12 +82,12 @@ public class Article {
         return mark;
     }
 
-    public String getImagesIda() {
-        return imagesIda;
+    public String getImageId() {
+        return imageId;
     }
 
-    public void setImagesIda(String imagesIda) {
-        this.imagesIda = imagesIda;
+    public void setImageId(String imageId) {
+        this.imageId = imageId;
     }
 
     public void setMark(String mark) {
@@ -96,5 +99,15 @@ public class Article {
 
     public void setLastModification(Date lastModification) {
         this.lastModification = lastModification;
+    }
+    public boolean isEmpty(){
+        return quantity==0;
+    }
+    public boolean isNew(){
+        LocalDateTime localTime=LocalDateTime.now();
+        Date currentDate=Date.from(localTime.atZone(ZoneId.systemDefault()).toInstant());
+        long diffInMillies = Math.abs(lastModification.getTime() - currentDate.getTime());
+        long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+        return diff <= 30;
     }
 }

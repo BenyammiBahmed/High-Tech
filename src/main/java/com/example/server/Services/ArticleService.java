@@ -8,9 +8,6 @@ import net.minidev.json.JSONObject;
 import org.bson.BsonBinarySubType;
 import org.bson.types.Binary;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,8 +16,6 @@ import java.lang.reflect.Field;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
-import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 @Service
@@ -40,7 +35,7 @@ public class ArticleService {
         }
         if (photo.getImage() != null)
         { photo=imageRespository.save(photo);
-          article.setImagesIda(photo.getIdImage());
+          article.setImageId(photo.getIdImage());
         }
         LocalDateTime localTime=LocalDateTime.now();
         article.setLastModification(Date.from(localTime.atZone(ZoneId.systemDefault()).toInstant()));

@@ -9,6 +9,8 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
@@ -20,7 +22,7 @@ import java.util.Map;
 
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.group;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.newAggregation;
-
+@EnableAsync
 @Service
 public class WaitListService {
     @Autowired
@@ -39,42 +41,28 @@ public class WaitListService {
             waitList.setQuantity(quntity);
         respository.save(waitList);
     }
-    public boolean ArticleExit(Article article){
-        return respository.exitArticle(article);
-    }
 
-    public void sendEmail()throws MessagingException, IOException {
-    //    List<User> waitList=respository.findUserWaitArticle(article);
+    @Async
+    public void sendEmail(Article article)throws MessagingException, IOException {
+      List<User> waitList=respository.findUserWaitArticle(article);
         MimeMessage msg = javaMailSender.createMimeMessage();
-
-        // true = multipart message
+        for (User u:waitList){
+         synchronized (this){
         MimeMessageHelper helper = new MimeMessageHelper(msg, true);
-
-        helper.setTo("bahmed.benyammi@univ-constantine2.dz");
-
-        helper.setSubject("Testing from Spring Boot");
-
-        // default = text/plain
-        //helper.setText("Check attachment for image!");
-
-        // true = text/html
-        helper.setText(generatEmail(), true);
-
-        // hard coded a file path
-        //FileSystemResource file = new FileSystemResource(new File("path/android.png"));
-
-     //   helper.addAttachment("my_photo.png", new ClassPathResource("android.png"));
-
-        javaMailSender.send(msg);
-    }
-    private String generatEmail(){
+        helper.setTo(u.getEmail());
+        helper.setSubject("High-Tech");
+        helper.setText(generatEmail(u,article), true);
+        javaMailSender.send(msg);}
+    }}
+    private String generatEmail(User user,Article article){
         String email="  <img src=\"\">" +
-                "    <h3>Hi mr Bahmed</h3>" +
-                "    <p>the Article name :" +
+                "    <h3>Hi mr"+user.getFirstName()+user.getLastName()+"</h3>" +
+                "    <p>the Article" +article.getName()+
                 "        is deponible now in High-tech Store\n" +
                 "    </p>\n" +
                 "    <div style=\"align-items: center;\">\n" +
-                "        <button style=\"background-color: chocolate; padding: 15px; margin: auto; border: none; align-items: center; \"><a\n" +
+                "        <button style=\"background-color: chocolate; padding: 15px; margin: auto; border: none; align-items: center; \">" +
+                "<a href=\" http://localhost:8080/Article/" +article.getImageId()+
                 "                style=\"text-decoration: none; color: wheat;\">Go Article Page</a></button>\n" +
                 "    </div>";
         return email;
@@ -93,7 +81,18 @@ public class WaitListService {
         }
         return articleQuntityWait;
     }
-    private void initData(){
-
-    }
+   public List<WaitList> waitListsUser(User user){
+        return respository.findByUser(user);
+   }
+   public void upDate(String id,int quntity){
+        WaitList waitList=respository.findById(id).get();
+        if (waitList!=null)
+        {
+            waitList.setQuantity(quntity);
+            respository.save(waitList);
+        }
+   }
+   public void removeWaitList(String idWaitList){
+        respository.deleteById(idWaitList);
+   }
 }

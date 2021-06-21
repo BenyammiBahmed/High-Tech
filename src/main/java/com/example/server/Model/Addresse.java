@@ -10,7 +10,7 @@ public class Addresse {
     private String state;
     private String city;
     private String street;
-    private String ocdeZip;
+    private String codeZip;
 
     public String getIdAddresse() {
         return idAddresse;

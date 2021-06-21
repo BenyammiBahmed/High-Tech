@@ -31,7 +31,7 @@ public class PanierIthem {
                 Panier panier = (Panier) session.getAttribute("panier");
                 if (panier != null) {
                     panier.getPanierIthems().remove(panierIthem());
-                    libreArticle(article);
+                    libreArticle();
                 }
             }
         };
@@ -41,7 +41,7 @@ public class PanierIthem {
     private PanierIthem panierIthem(){
         return this;
     }
-    public void libreArticle(Article article){
+    public void libreArticle(){
         MongoTemplate mongoOp=new MongoTemplate(MongoClients.create(), "High-tech");
         MongoCollection<Document> collection=mongoOp.getCollection("article");
         Document document= collection.find(eq("_id",article.getCodeModele())).first();

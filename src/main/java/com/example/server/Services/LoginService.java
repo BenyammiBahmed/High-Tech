@@ -12,8 +12,11 @@ import javax.servlet.http.HttpSession;
 public class LoginService {
     @Autowired
     UserRepository repository;
+    @Autowired
+    CryptoService cryptoService;
 
     public User login(String email, String password){
+        password=cryptoService.Crype(password);
         return repository.findByEmailAndPassword(email,password);
     }
     public boolean chekAdmin(HttpSession session){
