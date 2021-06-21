@@ -59,8 +59,6 @@ public class CommandServcie {
        Date currentDate=Date.from(localTime.atZone(ZoneId.systemDefault()).toInstant());
        long diffInMillies = Math.abs(date.getTime() - currentDate.getTime());
        long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
-       if (diff<=30)
-           return true;
-       else return false;
+        return diff <= 30;
    }
 }

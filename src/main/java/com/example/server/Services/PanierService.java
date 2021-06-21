@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
+import java.security.PublicKey;
 import java.util.ArrayList;
 
 @Service
@@ -39,18 +40,18 @@ public class PanierService {
         }
     }
     private Panier getPanierSession(HttpSession session){
-        Panier panier= (Panier) session.getAttribute("panier");
+        Panier panier= (Panier) session.getAttribute("pannier");
         if(panier==null)
         {
             panier=new Panier();
-            session.setAttribute("panier",panier);
+            session.setAttribute("pannier",panier);
             return panier;
 
         }
         else
             return panier;
     }
-    private Command validPanier(Panier panier, User user){
+    public Command validPanier(Panier panier, User user){
 
         Command command=new Command();
         panier.CancelPainer();
@@ -67,5 +68,18 @@ public class PanierService {
         command.setItemList(commandItems);
        return commadRepository.save(command);
 
+    }
+    public Panier supprimeIthem(Panier panier,String idArticle){
+        for (PanierIthem ithem:panier.getPanierIthems())
+        {
+            if (ithem.getArticle().getCodeModele().equals(idArticle))
+            {
+                panier.getPanierIthems().remove(ithem);
+                ithem.getTimer().cancel();
+                ithem.libreArticle();
+
+            }
+        }
+        return panier;
     }
 }

@@ -49,6 +49,9 @@ public class SearchService {
         List<Article> page = articleRepository.findArticle(page());
         return page;
     }
+    public Article articleById(String id){
+        return articleRepository.findByCodeModle(id);
+    }
     private Criteria makeQuery(Criteria criteria,String s,ArrayList<Criteria> criteriaArrayList){
         if (chekIsType(s))
             return criteria.and("type").is(s.toUpperCase());
@@ -88,4 +91,5 @@ public class SearchService {
                 return true;
             return false;
     }
+
 }

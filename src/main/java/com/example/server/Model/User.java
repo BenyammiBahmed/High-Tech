@@ -20,7 +20,7 @@ public class User  {
     private String email;
     @NotEmpty
     private String password;
-
+    private String phone;
     @DBRef
     private Addresse addresse;
     private Roles role;
@@ -93,5 +93,11 @@ public class User  {
         this.addresse = addresse;
     }
 
+    public String getPhone() {
+        return phone;
+    }
 
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 }

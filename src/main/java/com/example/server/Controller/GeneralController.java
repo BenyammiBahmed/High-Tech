@@ -1,14 +1,13 @@
 package com.example.server.Controller;
 
-import com.example.server.Model.Addresse;
-import com.example.server.Model.Article;
-import com.example.server.Model.Image;
+import com.example.server.Model.*;
 import com.example.server.RepositoryInterFace.ImageRespository;
+import com.example.server.Services.ArticleService;
 import com.example.server.Services.LoginService;
-import com.example.server.Model.User;
 import com.example.server.Services.CompteService;
 import com.example.server.Services.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.server.DelegatingServerHttpResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -32,34 +31,72 @@ public class GeneralController {
     ImageRespository imageRespository;
     @Autowired
     SearchService searchService;
+    @Autowired
+    ArticleService articleService;
+
     @GetMapping("/")
     public String index(Model model) {
-        model.addAttribute("error", "dddd");
+        model.addAttribute("result", searchService.newArticles());
         return "index";
     }
 
-    @GetMapping("/loginPage")
+    @GetMapping("/LoginPage")
     public String loginPage(@RequestParam(required = false) String message, Model model) {
-        model.addAttribute("MessageError", message);
+
         return "Login";
     }
 
-    @GetMapping("/login")
+    @GetMapping("/RegistratePage")
+    public String RegistratePage() {
+        return "";
+    }
+    @PostMapping("/Registrate")
+    public String Registrat(User user,Addresse addresse,Model model,HttpSession session){
+        user.setRole(Roles.USER);
+        System.out.println("user");
+        user.setAddresse(addresse);
+      user=registrate.Registrate(user);
+      if (user==null || user.getIdUser()==null) {
+          model.addAttribute("MessageError", "email hsa already exite");
+          return "";
+      }
+      else
+          return "redirect:/";
+    }
+    @GetMapping("/Login")
     public String login(@RequestParam("email") String email, Model model, @RequestParam("password") String password, HttpSession session) {
         User user = loginService.login(email, password);
         if (user == null) {
-            model.addAttribute("MessageError", "Email has exist ! go to login");
+            model.addAttribute("MessageError", "Email or password is incorrect");
             return "Login";
         } else {
             session.setAttribute("user", user);
-            return "redirect:/" + user.getRole().toString();
+            if (user.getRole().equals(Roles.ADMIN))
+                return "redirect:/" + user.getRole().toString();
+            else return "redirect:/";
         }
     }
-  @GetMapping("/search")
-  @ResponseBody
-  public List<Article> searchArticle(String search){
-        return searchService.search(search);
-  }
+
+    @GetMapping("/search")
+    public String searchArticle(String search, Model model) {
+        model.addAttribute("search", search);
+        model.addAttribute("result", searchService.search(search));
+        return "index";
+    }
+    @GetMapping("/{type}")
+    public String searchType(@PathVariable String type, Model model){
+
+        model.addAttribute("result", searchService.searchType(type));
+        return "index";
+    }
+    @GetMapping("/Article/{id}")
+        public String articleId(@PathVariable String id,Model model){
+        model.addAttribute("article",searchService.articleById(id));
+        return "";
+
+    }
+
+
     @RequestMapping(value = "/getPhoto/{id}", method = RequestMethod.GET)
     public @ResponseBody
     void getPhoto(@PathVariable String id, HttpServletResponse response) {
