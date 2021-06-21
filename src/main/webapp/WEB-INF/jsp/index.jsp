@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<?import Modele.Article;>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
@@ -46,14 +47,22 @@
 				<div class="row">
 					<div class="col-sm-4">
 						<div class="logo pull-left">
-							<a href="index.html"><img src="/img/logo.png" alt="" /></a>
+							<a href="/"><img src="/img/logo.png" alt="" /></a>
 						</div>
 					</div>
 					<div class="col-sm-8">
 						<div class="shop-menu pull-right">
 							<ul class="nav navbar-nav">
-								<li><a href="login.html"><i class="fa fa-lock"></i> Login</a></li>
-								<li><a href="login.html"><i class="fa fa-plus-square"></i> Register</a></li>
+								<!--
+								<li><a href="/PurchaseHistoryPage"><i class="fas fa-history"></i> Purchase History</a></li>
+								<li><a href="/PendingArticlesList"><i class="fa fa-hourglass-start"></i> Pending Articles List </a></li>
+								<li><a href="/CartPage"><i class="fa fa-crosshairs"></i> Checkout</a></li>
+								<li><a href="/CartPage"><i class="fa fa-shopping-cart"></i> Cart</a></li>
+								<li><a href="/AccountClientPage"><i class="fa fa-user"></i> Account</a></li>
+								<li><a href="login.html"><i class="fa fa-unlock"></i> Logout</a></li>
+							-->
+								<li><a href="/LoginPage"><i class="fa fa-lock"></i> Login</a></li>
+								<li><a href="/RegistratePage"><i class="fa fa-plus-square"></i> Register</a></li>
 
 							</ul>
 						</div>
@@ -76,8 +85,8 @@
 						</div>
 						<div class="mainmenu pull-left">
 							<ul class="nav navbar-nav collapse navbar-collapse">
-								<li><a href="index.html" class="active"><i class="fa fa-home"></i> Home</a></li>
-								<li class="dropdown"><a href="#"><i class="fa fa-cogs"></i> PC configuration </a></li>
+								<li><a href="/" class="active"><i class="fa fa-home"></i> Home</a></li>
+								<li class="dropdown"><a href="/PCConfigPage"><i class="fa fa-cogs"></i> PC configuration </a></li>
 							</ul>
 						</div>
 					</div>
@@ -163,42 +172,40 @@
 						<div class="panel-group category-products" id="accordian"><!--category-productsr-->
 							<div class="panel panel-default">
 								<div class="panel-heading">
-									<h4 class="panel-title"><a class="categ" href="#">CPU</a></h4>
+									<h4 class="panel-title"><a class="categ" href="/CPU">CPU</a></h4>
 								</div>
 							</div>
 							<div class="panel panel-default">
 								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">GPU</a></h4>
+									<h4 class="panel-title"><a href="/GPU">GPU</a></h4>
 								</div>
 							</div>
 							<div class="panel panel-default">
 								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">RAM</a></h4>
+									<h4 class="panel-title"><a href="/RAM">RAM</a></h4>
 								</div>
 							</div>
 							<div class="panel panel-default">
 								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">Motherboard</a></h4>
+									<h4 class="panel-title"><a href="/MOTHERBOARD">Motherboard</a></h4>
 								</div>
 							</div>
 							<div class="panel panel-default">
 								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">Hard Disk</a></h4>
+									<h4 class="panel-title"><a href="/DISKDUR">Hard Disk</a></h4>
 								</div>
 							</div>
 							<div class="panel panel-default">
 								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">PC Power</a></h4>
+									<h4 class="panel-title"><a href="/POWER">PC Power</a></h4>
 								</div>
 							</div>
 							<div class="panel panel-default">
 								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">PC Box</a></h4>
+									<h4 class="panel-title"><a href="/BOX">PC Box</a></h4>
 								</div>
 							</div>
 						</div><!--/category-products-->
-
-
 
 						<div class="shipping text-center"><!--shipping-->
 						</div><!--/shipping-->
@@ -209,85 +216,39 @@
 				<div class="col-sm-9 padding-right">
 					<div class="features_items" id="fromContinue"><!--features_items-->
 						<h2 class="title text-center">Features Items</h2>
-						<div class="col-sm-4">
-							<div class="product-image-wrapper">
-								<div class="single-products">
-										<div class="productinfo text-center">
-											<img src="/img/gpuItem1.jpg" alt="" />
-											<h2>315$</h2>
-											<p>GPU, Radeon RX 550</p>
-											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-bars"></i> More details</a>
-										</div>
-										<div class="product-overlay">
-											<div class="overlay-content">
-												<h2>$315</h2>
-												<p>GPU, Radeon RX 550</p>
-												<a href="Login.html" class="btn btn-default add-to-cart"><i class="fa fa-bars"></i> More details</a>
-											</div>
-										</div>
-										<img src="/img/new.png" class="new" alt="" />
-
-								</div>
-							</div>
-						</div>
-						<div class="col-sm-4">
-							<div class="product-image-wrapper">
-								<div class="single-products">
-									<div class="productinfo text-center">
-										<img src="/img/gpuItem2.jpg" alt="" />
-										<h2>$56</h2>
-										<p>GPU, Radeon R9 7550</p>
-										<a href="Login.html" class="btn btn-default add-to-cart"><i class="fa fa-bars"></i> More details</a>
-									</div>
-									<div class="product-overlay">
-										<div class="overlay-content">
-											<h2>$56</h2>
-											<p>Easy Polo Black Edition</p>
-											<a href="Login.html" class="btn btn-default add-to-cart"><i class="fa fa-bars"></i> More details</a>
+							<c:forEach var="article" items="${result}">
+								<div class="col-sm-4">
+									<div class="product-image-wrapper">
+										<div class="single-products">
+												<div class="productinfo text-center">
+													<img src="/getPhoto/${article.getPhoto();}" alt="" />
+													<!--  <h2>$prix</h2> -->
+													<h2>${article.price} DA</h2>
+													<!-- <p>$name</p>-->
+													<p>${article.name}</p>
+													<a href="/Article/${article.codeModele}" class="btn btn-default add-to-cart"><i class="fa fa-bars"></i> More details</a>
+												</div>
+												<div class="product-overlay">
+													<div class="overlay-content">
+														<!--  <h2>$prix</h2> -->
+														<h2>${article.price} DA</h2>
+														<!-- <p>$name</p>-->
+														<p>${article.name}</p>
+														<a href="/Article/${article.codeModele}" class="btn btn-default add-to-cart"><i class="fa fa-bars"></i> More details</a>
+													</div>
+												</div>
+												<c:choose>
+													<c:when test=${article.isNew()}>
+														<img src="/img/new.png" class="new" alt="" />
+													</c:when>
+													<c:when test=${article.isEmpty()}>
+														<img src="/img/unavailable.jpg" class="new" alt="" />
+													</c:when>
+												</c:choose>
 										</div>
 									</div>
 								</div>
-							</div>
-						</div>
-						<div class="col-sm-4">
-							<div class="product-image-wrapper">
-								<div class="single-products">
-									<div class="productinfo text-center">
-										<img src="/img/gpuItem1.jpg" alt="" />
-										<h2>$56</h2>
-										<p>GPU, Radeon R9 7550</p>
-										<a href="Login.html" class="btn btn-default add-to-cart"><i class="fa fa-bars"></i> More details</a>
-									</div>
-									<div class="product-overlay">
-										<div class="overlay-content">
-											<h2>$56</h2>
-											<p>GPU, Radeon R9 7550</p>
-											<a href="Login.html" class="btn btn-default add-to-cart"><i class="fa fa-bars"></i> More details</a>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-sm-4">
-							<div class="product-image-wrapper">
-								<div class="single-products">
-									<div class="productinfo text-center">
-										<img src="images/home/product4.jpg" alt="" />
-										<h2>$56</h2>
-										<p>Easy Polo Black Edition</p>
-										<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-									</div>
-									<div class="product-overlay">
-										<div class="overlay-content">
-											<h2>$56</h2>
-											<p>Easy Polo Black Edition</p>
-											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-										</div>
-									</div>
-									<img src="images/home/sr.jpg" class="new" alt="" />
-								</div>
-							</div>
-						</div>
+							</c:forEach>
 					</div><!--features_items-->
 				</div>
 			</div>

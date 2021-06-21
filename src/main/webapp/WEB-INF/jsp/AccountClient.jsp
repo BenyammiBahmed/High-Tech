@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Registrate | HT-Store</title>
+    <title>Account Client | HT-Store</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/font-awesome.min.css" rel="stylesheet">
     <link href="css/prettyPhoto.css" rel="stylesheet">
@@ -16,7 +16,7 @@
     <!--[if lt IE 9]>
     <script src="js/html5shiv.js"></script>
     <script src="js/respond.min.js"></script>
-    <![endif]-->
+    <![endif]-->       
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <link rel="shortcut icon" href="images/ico/favicon.ico">
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
@@ -41,27 +41,31 @@
 				</div>
 			</div>
 		</div><!--/header_top-->
-
+		
         <div class="header-middle"><!--header-middle-->
             <div class="container">
                 <div class="row">
                     <div class="col-sm-4">
                         <div class="logo pull-left">
-                            <a href="/"><img src="/img/logo.png" alt="" /></a>
+                            <a href="/"><img src="img/logo.png" alt="" /></a>
                         </div>
                     </div>
                     <div class="col-sm-8">
                         <div class="shop-menu pull-right">
                             <ul class="nav navbar-nav">
-                                <li><a href="/LoginPage" ><i class="fa fa-lock"></i> Login</a></li>
-                                <li><a href="#" class="active"><i class="fa fa-plus-square"></i> Register</a></li>
+								<li><a href="/PurchaseHistory" ><i class="fas fa-history"></i> Purchase History</a></li>
+                                <li><a href="/PendingArticlesList"><i class="fa fa-hourglass-start"></i> Pending Articles List</a></li>
+                                <li><a href="/CartPage"><i class="fa fa-crosshairs"></i> Checkout</a></li>
+                                <li><a href="/CartPage"><i class="fa fa-shopping-cart"></i> Cart</a></li>
+                                <li><a href="/AccountPage" class="active"><i class="fa fa-user"></i> Account</a></li>
+                                <li><a href="/" ><i class="fa fa-unlock"></i> Logout</a></li>
                             </ul>
                         </div>
                     </div>
                 </div>
             </div>
         </div><!--/header-middle-->
-
+	
 		<div class="header-bottom"><!--header-bottom-->
 			<div class="container">
 				<div class="row">
@@ -75,49 +79,55 @@
 							</button>
 						</div>
 						<div class="mainmenu pull-left">
-							<ul class="nav navbar-nav collapse navbar-collapse">
-								<li><a href="/"><i class="fa fa-home"></i> Home</a></li>
-                                <li class="dropdown"><a href="PCConfigPage"><i class="fa fa-cogs"></i> PC configuration </a></li>
-							</ul>
-						</div>
+                            <ul class="nav navbar-nav collapse navbar-collapse">
+                                <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
+                                <li class="dropdown"><a href="/PCConfigPage"><i class="fa fa-cogs"></i> PC configuration </a></li> 
+                            </ul>
+                        </div>
 					</div>
 				</div><hr>
 			</div>
 		</div><!--/header-bottom-->
 	</header><!--/header-->
-
+	
 	<section id="form"><!--form-->
 		<div class="container">
-			<div class="breadcrumbs">
+            <div class="breadcrumbs">
                 <ol class="breadcrumb">
                   <li><a href="/">Home</a></li>
-                  <li class="active">Register</li>
+                  <li class="active">Account</li>
                 </ol>
             </div>
 			<div class="row">
 					<div class="signup-form"><!--sign up form-->
-						<h2>New User Signup!</h2>
-						<form action="/Registrate" method="post">
-							<input type="email" name="email" placeholder="Email Address" required />
-							<input type="password" name="password" placeholder="Password" required />
-							<input type="text" name="firstName" placeholder="Firstname" required />
-							<input type="text" name="lastName" placeholder="Lastname" required />
-							<input type="text" name="phone" placeholder="Phone Number" required />
+						<h2>Profile</h2>
+						<form action="/USER/Update">
+							<input type="text" name="idUser" value="${user.idUser}" placeholder="" hidden />
+							<input type="text" name="idAddresse" value="${user.idAddresse}" placeholder="" hidden />
+
+							<input type="email" name="email" value="${user.email}" placeholder="Email Address" required />
+							<input type="password" name="password" placeholder="Enter your password" required />
+							<input type="text" name="firstname" value="${user.firstName}" placeholder="Firstname" required />
+							<input type="text" name="lastname" value="${user.lastName}" placeholder="Lastname" required />
+							<input type="text" name="phone" value="${user.phone}" placeholder="Phone Number" required />
 							<hr>
 							<h5>Address</h5>
-							<input class="form-control form-control-sm" type="text" name="city" placeholder="City" required />
-							<input class="form-control form-control-sm" type="text" name="state" placeholder="State" required />
-							<input class="form-control form-control-sm" type="text" name="street" placeholder="Street" required />
-							<input class="form-control form-control-sm" type="text" name="codeZip" placeholder="Zip / Postal Code" required />
-
-							<button type="submit" class="btn btn-default btnForWidth">Signup</button>
+							<input class="form-control form-control-sm" type="text" name="city" value="${user.Addresse.city}" placeholder="City" required />
+							<input class="form-control form-control-sm" type="text" name="state" value="${user.Addresse.state}" placeholder="State" required />
+							<input class="form-control form-control-sm" type="text" name="street" value="${user.Addresse.street}" placeholder="Street" required />
+							<input class="form-control form-control-sm" type="text" name="zip" value="${user.Addresse.codeZip}" placeholder="Zip / Postal Code" required />
+							<button type="submit" class="btn btn-default btnForWidth">Update</button>
 						</form>
+                        <hr>
+                        <button type="" class="btn btn-danger btnForWidth"><i class="fa fa-trash"></i>     | Delete Account</button>
+
+
 					</div><!--/sign up form-->
 			</div>
 		</div>
 	</section><!--/form-->
 
-	<footer>
+	<footer>		
 		<div class="footer-bottom">
 			<div class="container">
 				<div class="row">
@@ -127,9 +137,9 @@
 			</div>
 		</div>
 	</footer><!--/Footer-->
+	
 
-
-
+  
     <script src="js/jquery.js"></script>
 	<script src="js/price-range.js"></script>
     <script src="js/jquery.scrollUp.min.js"></script>
