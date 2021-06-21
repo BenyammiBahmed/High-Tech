@@ -2,6 +2,8 @@ package com.example.server.Controller;
 
 import com.example.server.Model.Article;
 import com.example.server.Model.User;
+import com.example.server.Model.WaitList;
+import com.example.server.RepositoryInterFace.ArticleRepository;
 import com.example.server.RepositoryInterFace.UserRepository;
 import com.example.server.RepositoryInterFace.WaitListRespository;
 import com.example.server.ServerClass.UserCard;
@@ -14,8 +16,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpSession;
-import java.util.List;
+import java.io.IOException;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/USER")
@@ -36,6 +40,8 @@ public class UserController {
     PaymentService paymentService;
     @Autowired
     SearchService searchService;
+    @Autowired
+    ArticleRepository articleRepository;
 
     @GetMapping("/")
     public String indexUser(HttpSession session, Model model) {
@@ -79,8 +85,20 @@ public class UserController {
     }
     @GetMapping("/test")
     @ResponseBody
-    public List<Article> user()  {
-     return searchService.newArticles();
+    public Map<Article, Integer> user() throws MessagingException, IOException {
+        User user=new User();
+        user.setPassword("555");
+        user.setEmail("555");
+        user.setFirstName("ddd");
+        user = userRepository.save(user);
+        Article article=articleRepository.findByCodeModle("ds");
+        WaitList waitList=new WaitList();
+        waitList.setQuantity(5);
+        waitList.setArticle(article);
+        waitList.setUser(user);
+        waitListRespository.save(waitList);
+
+     return waitListService.articleWaitList();
 
     }
 
