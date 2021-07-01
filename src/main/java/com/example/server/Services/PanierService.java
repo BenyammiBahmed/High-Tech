@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
-import java.security.PublicKey;
 import java.util.ArrayList;
 
 @Service
@@ -25,8 +24,8 @@ public class PanierService {
     @Autowired
     CommandIthemRespository commandIthemRespository;
 
-    public boolean reservedActicle(Article article, int quntity, HttpSession session){
-        article=articleRepository.findByCodeModle(article.getCodeModele());
+    public boolean reservedActicle(String codeMedel, int quntity, HttpSession session){
+       Article article=articleRepository.findByCodeModle(codeMedel);
         if(article.getQuantity()<quntity)
             return false;
         else
@@ -58,10 +57,11 @@ public class PanierService {
         command.setUser(user);
         ArrayList<CommandItem> commandItems=new ArrayList<>();
         for (PanierIthem ithem: panier.getPanierIthems()){
+            ithem.getTimer().cancel();
             CommandItem commandItem=new CommandItem();
             commandItem.setArticle(ithem.getArticle());
             commandItem.setPrice(ithem.getArticle().getPrice());
-            commandItem.setQuntity(ithem.getQuntity());
+            commandItem.setQuantity(ithem.getQuantity());
            commandItem= commandIthemRespository.save(commandItem);
             commandItems.add(commandItem);
         }

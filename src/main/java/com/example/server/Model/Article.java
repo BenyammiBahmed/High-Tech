@@ -59,6 +59,7 @@ public class Article {
     }
 
     public void setType(ArticleType type) {
+
         this.type = type;
     }
 

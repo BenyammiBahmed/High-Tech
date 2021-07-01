@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<body>
+<u><h1>Bon de retraite</h1></u><hr>
+<u><h3>Demande Informations</h3></u>
+
+<table border="none" width="100%" >
+  <tr>
+    <td >Code de retraite</td>
+    <td th:text="${demande.idDemandeRA}" ></td>
+  </tr>
+    <tr>
+    <td >Article ID</td>
+    <td  th:text="${demande.commandItem.article.codeModele}"></td>
+    </tr>
+    <tr>
+    <td >Name Article</td>
+    <td th:text="${demande.commandItem.article.name}" ></td>
+    </tr><tr>
+    <td >quantity</td>
+    <td  th:text="${demande.quantity}"></td>
+    </tr>
+</table>
+    <h3> User Information</h3>
+    <table border="none" width="100%" >
+     <tr>
+    <td>Email </td>
+    <td  th:text="${demande.user.email}"> </td>
+     </tr>
+        <tr>
+    <td >FirstName</td>
+    <td  th:text="${demande.user.firstName}"></td>
+        </tr>
+        <tr>
+    <td >LastName</td>
+    <td  th:text="${demande.user.lastName}"></td>
+        </tr>
+    </table>
+    <h3>Deposit Address</h3>
+     <h4>1 Novembre 1954,Bouira,Errich</h4>
+
+
+
+
+
+</body>
+</html>

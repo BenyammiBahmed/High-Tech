@@ -25,7 +25,7 @@ public class SearchService {
     public List<Article> search(String s){
         String[] words = s.split("\\s+");
         Criteria criteria=new Criteria();
-        criteria.where("name").regex(s);
+        Criteria.where("name").regex(s);
         ArrayList<Criteria> criteriaArrayList =new ArrayList<>();
         for (String word:words)
          criteria =makeQuery(criteria,word,criteriaArrayList);
@@ -66,7 +66,7 @@ public class SearchService {
             }
     }
     private Pageable page(){
-        return PageRequest.of(0, 12, Sort.by(Sort.Direction.ASC, "lastModification"));
+        return PageRequest.of(0, 12, Sort.by(Sort.Direction.DESC, "lastModification"));
     }
     private boolean chekIsType(String s){
         s=s.toUpperCase();
@@ -85,7 +85,7 @@ public class SearchService {
         return criteria;
     }
     private boolean chekIsMark(String s){
-        String [] mark={"AMD","INTEL","NVIDIA",};
+        String [] mark={"AMD","INTEL","NVIDIA","MSI"};
         for (String m: mark)
             if (m.equals(s.toUpperCase()))
                 return true;

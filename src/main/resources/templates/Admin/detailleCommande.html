@@ -1,0 +1,225 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Command Detail | HT-Store</title>
+	<link href="/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/css/font-awesome.min.css" rel="stylesheet">
+	<link href="/css/prettyPhoto.css" rel="stylesheet">
+	<link href="/css/price-range.css" rel="stylesheet">
+	<link href="/css/animate.css" rel="stylesheet">
+	<link href="/css/main.css" rel="stylesheet">
+	<link href="/css/responsive.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+	<link rel="shortcut icon" href="images/ico/favicon.ico">
+	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
+</head><!--/head-->
+
+<body>
+	<header id="header"><!--header-->
+		<div class="header_top"><!--header_top-->
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="contactinfo">
+							<ul class="nav nav-pills">
+								<li><a href=""><i class="fa fa-phone"></i> +213 541 84 57 98</a></li>
+								<li><a href=""><i class="fa fa-envelope"></i> HT.Store.RB@gmail.com</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div><!--/header_top-->
+		
+		<div class="header-middle"><!--header-middle-->
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="logo pull-left">
+                            <a href="/listeCommandeDashboard"><img src="/img/logo.png" alt="" /></a>
+                        </div>
+                    </div>
+                    <div class="col-sm-8">
+                        <div class="shop-menu pull-right">
+							<ul class="nav navbar-nav">
+								<li><a href="/DemandeRA" ><i class="fas fa-undo-alt"></i> Return Requests</a></li>
+
+								<li><a href="/ADMIN/WaitList"><i class="fa fa-hourglass-start"></i> Customer Requests</a></li>
+								<li class="dropdown"><a href="#" ><i class="fa fa-gear"></i> Articles<i class="fa fa-angle-down"></i></a>
+									<ul role="menu" class="sub-menu">
+										<li><a href="/ADMIN/AjouterArticle"><i class="fa fa-plus"></i>  Add a new product</a></li>
+										<li><a href="/ADMIN/ListArticle"><i class="fa fa-gear"></i>  Update a product</a></li>
+										<li><a href="/ADMIN/ListArticle"><i class="fa fa-times"></i>  Delete a product</a></li>
+
+									</ul>
+								<li><a href="/ADMIN/Account"><i class="fa fa-user"></i> Account</a></li>
+								<li><a href="/Logout" ><i class="fa fa-unlock"></i> Logout</a></li>
+							</ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!--/header-middle-->
+	
+		<div class="header-bottom"><!--header-bottom-->
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-9">
+						<div class="navbar-header">
+							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+								<span class="sr-only">Toggle navigation</span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+							</button>
+						</div>
+						<div class="mainmenu pull-left">
+                            <ul class="nav navbar-nav collapse navbar-collapse">
+                                <li><a href="/listeCommandeDashboard"><i class="fa fa-home"></i> Home</a></li>
+                            </ul>
+                        </div>
+					</div>
+				</div>
+				<hr>
+			</div>
+		</div><!--/header-bottom-->
+	</header><!--/header-->
+	
+	<section id="cart_items">
+		<div class="container">
+			<div class="breadcrumbs">
+				<ol class="breadcrumb">
+				  <li><a href="/listeCommandeDashboard">Home</a></li>
+				  <li class="active">Command Detail</li>
+				</ol>
+			</div>
+			<h3>Client Information</h3>
+			<div class="table-responsive cart_info">
+				<table class="table table-condensed">
+					<thead>
+						<tr class="cart_menu">
+							<td class="email">Email</td>
+							<td class="firstName">First Name</td>
+							<td class="lastName">Last Name</td>
+							<td class="phone">Phone Number</td>
+							<td class="addresse">Address(city, state, street)</td>
+						</tr>
+					</thead>
+					<tbody>
+						<form action="">
+							<tr>
+								<td>
+									<p th:text="${command.user.email}"></p>
+								</td>
+								<td>
+									<p th:text="${command.user.firstName}"></p>
+								</td>
+								<td>
+									<p th:text="${command.user.lastName}"></p>
+								</td>
+								<td>
+									<p th:text="${command.user.phone}"></p>
+								</td>
+								<td>
+									<p th:text="${command.user.addresse.city}+',' +${command.user.addresse.state}','${command.user.addresse.street}"></p>
+								</td>
+							</tr>	
+						</form>
+					</tbody>
+				</table>
+			</div>
+			<h3>Command Informations</h3>
+			<div class="table-responsive cart_info">
+				<table class="table table-condensed">
+					<thead>
+						<tr class="cart_menu">
+							<td class="codeModele">ID Item</td>
+							<td class="name">Name</td>
+							<td class="type">Type</td>
+							<td class="price">Price</td>
+							<td class="qte">Quantity</td>
+							<td class="total">Total</td>
+						</tr>
+					</thead>
+					<tbody>
+
+
+							<tr th:each="cmd :${command.itemList}">
+								<td>
+									<p th:text="${cmd.article.codeModele}"></p>
+								</td>
+								<td>
+									<p th:text="${cmd.article.name}"></p>
+								</td>
+								<td>
+									<p th:text="${cmd.article.type}"></p>
+								</td>
+								<td>
+									<p th:text="${cmd.article.price}+' DA'"></p>
+								</td>
+								<td>
+									<p th:text="${cmd.quantity}"></p>
+								</td>
+								<td>
+									<p th:text="${cmd.article.price*cmd.quantity}"></p>
+								</td>
+							</tr>	
+
+						</c:forEach>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</section> <!--/#cart_items-->
+
+	<section id="do_action">
+		<div class="container">
+			<div class="heading">
+				<h3>What would you like to do next ?</h3>
+			</div>
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="total_area">
+						<ul>
+							<li>Cart Sub Total <span>${command.getPriceTotal()} DA</span></li>
+							<li>Eco Tax <span>20DA</span></li>
+							<li>Delivery Price <span>Free</span></li>
+							<li>Total <span>${command.getPriceTotal()+20} DA</span></li>
+						</ul>
+					</div>
+				</div>
+
+			</div>
+			<button style="" class="btn btn-default btnValidate btnForWidth" ><a href="/ADMIN/livredCommand/${command.idCommand}">Deliver the command  <i class="fas fa-shipping-fast"></i></a></button>
+
+		</div>
+	</section><!--/#do_action-->
+
+	<footer>		
+		<div class="footer-bottom">
+			<div class="container">
+				<div class="row">
+					<p class="pull-left">Copyright © 2021 HT-Store Inc. All rights reserved.</p>
+					<p class="pull-right">Designed by <span><a target="_blank" href="https://github.com/BenyammiBahmed/High-Tech">Bahmed Benyammi & Ahmed Rekibi</a></span></p>
+				</div>
+			</div>
+		</div>
+	</footer><!--/Footer-->
+
+
+    <script src="js/jquery.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/jquery.scrollUp.min.js"></script>
+    <script src="js/jquery.prettyPhoto.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

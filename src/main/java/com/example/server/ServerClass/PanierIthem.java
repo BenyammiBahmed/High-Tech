@@ -18,10 +18,10 @@ public class PanierIthem {
     private TimerTask timerTask;
     private Timer timer;
     private Article article;
-    private int quntity;
+    private int quantity;
     public PanierIthem(Article article,int quntity ,HttpSession session){
         this.article=article;
-        this.quntity=quntity;
+        this.quantity =quntity;
         initTimer(session);
     }
     private void initTimer(HttpSession session){
@@ -45,7 +45,7 @@ public class PanierIthem {
         MongoTemplate mongoOp=new MongoTemplate(MongoClients.create(), "High-tech");
         MongoCollection<Document> collection=mongoOp.getCollection("article");
         Document document= collection.find(eq("_id",article.getCodeModele())).first();
-        document.append("quntity",((int)document.get("quntity"))+this.quntity);
+        document.append("quntity",((int)document.get("quntity"))+this.quantity);
         mongoOp.save(document,"article");
 
     }
@@ -61,7 +61,15 @@ public class PanierIthem {
         return article;
     }
 
-    public int getQuntity() {
-        return quntity;
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setArticle(Article article) {
+        this.article = article;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 }

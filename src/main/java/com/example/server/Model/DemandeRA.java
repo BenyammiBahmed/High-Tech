@@ -19,12 +19,13 @@ public class DemandeRA {
     private User user;
     private String raison;
     private String response;
-    private boolean isAccepte=false;
-    private boolean isTreat=false;
+    private boolean accepte =false;
+    private boolean treat =false;
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date date;
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date datebuy;
+    private int quantity;
 
     public DemandeRA() {
         LocalDateTime localTime=LocalDateTime.now();
@@ -63,12 +64,9 @@ public class DemandeRA {
         this.response = response;
     }
 
-    public boolean isAccepte() {
-        return isAccepte;
-    }
 
     public void setAccepte(boolean accepte) {
-        isAccepte = accepte;
+        this.accepte = accepte;
     }
 
     public Date getDate() {
@@ -78,4 +76,41 @@ public class DemandeRA {
     public void setDate(Date date) {
         this.date = date;
     }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public boolean isAccepte() {
+        return accepte;
+    }
+
+    public boolean isTreat() {
+        return treat;
+    }
+
+    public void setTreat(boolean treat) {
+        this.treat = treat;
+    }
+
+    public Date getDatebuy() {
+        return datebuy;
+    }
+
+    public void setDatebuy(Date datebuy) {
+        this.datebuy = datebuy;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
 }

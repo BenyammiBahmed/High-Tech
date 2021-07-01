@@ -3,6 +3,7 @@ package com.example.server.Services;
 import com.example.server.Model.Article;
 import com.example.server.Model.User;
 import com.example.server.Model.WaitList;
+import com.example.server.RepositoryInterFace.ArticleRepository;
 import com.example.server.RepositoryInterFace.WaitListRespository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -22,6 +23,7 @@ import java.util.Map;
 
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.group;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.newAggregation;
+
 @EnableAsync
 @Service
 public class WaitListService {
@@ -31,68 +33,78 @@ public class WaitListService {
     JavaMailSender javaMailSender;
     @Autowired
     MongoTemplate mongoTemplate;
+    @Autowired
+    ArticleRepository articleRepository;
 
-
-    public void insertWaitList(Article article, User user,int quntity){
-        WaitList waitList=respository.findByArticleAndUser(article,user);
-        if((waitList==null)||(waitList.getIdWaitList()==null))
-         waitList =new WaitList(user,article,quntity);
+    public void insertWaitList(String codeModele, User user, int quntity) {
+        Article article=articleRepository.findByCodeModle(codeModele);
+        WaitList waitList = respository.findByArticleAndUser(article.getCodeModele(), user.getIdUser());
+        if ((waitList == null) || (waitList.getIdWaitList() == null))
+            waitList = new WaitList(user, article, quntity);
         else
             waitList.setQuantity(quntity);
         respository.save(waitList);
     }
 
     @Async
-    public void sendEmail(Article article)throws MessagingException, IOException {
-      List<User> waitList=respository.findUserWaitArticle(article);
+    public void sendEmail(Article article) throws MessagingException, IOException {
+        List<WaitList> waitList = respository.findUserWaitArticle(article.getCodeModele());
         MimeMessage msg = javaMailSender.createMimeMessage();
-        for (User u:waitList){
-         synchronized (this){
-        MimeMessageHelper helper = new MimeMessageHelper(msg, true);
-        helper.setTo(u.getEmail());
-        helper.setSubject("High-Tech");
-        helper.setText(generatEmail(u,article), true);
-        javaMailSender.send(msg);}
-    }}
-    private String generatEmail(User user,Article article){
-        String email="  <img src=\"\">" +
-                "    <h3>Hi mr"+user.getFirstName()+user.getLastName()+"</h3>" +
-                "    <p>the Article" +article.getName()+
+        for (WaitList u : waitList) {
+            synchronized (this) {
+                MimeMessageHelper helper = new MimeMessageHelper(msg, true);
+                helper.setTo(u.getUser().getEmail());
+                helper.setSubject("High-Tech");
+                helper.setText(generatEmail(u.getUser(), article), true);
+                javaMailSender.send(msg);
+                respository.delete(u);
+            }
+
+        }
+    }
+
+    private String generatEmail(User user, Article article) {
+        String email = "  <img src=\"\">" +
+                "    <h3>Hi mr" + user.getFirstName() + user.getLastName() + "</h3>" +
+                "    <p>the Article" + article.getName() +
                 "        is deponible now in High-tech Store\n" +
                 "    </p>\n" +
                 "    <div style=\"align-items: center;\">\n" +
                 "        <button style=\"background-color: chocolate; padding: 15px; margin: auto; border: none; align-items: center; \">" +
-                "<a href=\" http://localhost:8080/Article/" +article.getImageId()+
+                "<a href=\" http://localhost:8080/Article/ "+ article.getImageId() +"\""+
                 "                style=\"text-decoration: none; color: wheat;\">Go Article Page</a></button>\n" +
                 "    </div>";
         return email;
     }
-    public Map<Article,Integer> articleWaitList(){
-      List<WaitList> waitLists= respository.findAll();
-        Map<Article,Integer> articleQuntityWait=new HashMap<>();
-        for (WaitList w:
-             waitLists) {
-            Article article=w.getArticle();
+
+    public Map<Article, Integer> articleWaitList() {
+        List<WaitList> waitLists = respository.findAll();
+        Map<Article, Integer> articleQuntityWait = new HashMap<>();
+        for (WaitList w :
+                waitLists) {
+            Article article = w.getArticle();
 
             if (articleQuntityWait.containsKey(article))
-                articleQuntityWait.put(article,articleQuntityWait.get(article)+w.getQuantity());
+                articleQuntityWait.put(article, articleQuntityWait.get(article) + w.getQuantity());
             else
-                articleQuntityWait.put(article,w.getQuantity());
+                articleQuntityWait.put(article, w.getQuantity());
         }
         return articleQuntityWait;
     }
-   public List<WaitList> waitListsUser(User user){
-        return respository.findByUser(user);
-   }
-   public void upDate(String id,int quntity){
-        WaitList waitList=respository.findById(id).get();
-        if (waitList!=null)
-        {
+
+    public List<WaitList> waitListsUser(User user) {
+        return respository.findByUser(user.getIdUser());
+    }
+
+    public void upDate(String id, int quntity) {
+        WaitList waitList = respository.findById(id).get();
+        if (waitList != null) {
             waitList.setQuantity(quntity);
             respository.save(waitList);
         }
-   }
-   public void removeWaitList(String idWaitList){
+    }
+
+    public void removeWaitList(String idWaitList) {
         respository.deleteById(idWaitList);
-   }
+    }
 }

@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Data
 public class Command {
@@ -53,8 +54,15 @@ public class Command {
         double total=0;
         for (CommandItem item:
              itemList) {
-            total=total+item.getPrice()*item.getQuntity();
+            total=total+item.getPrice()*item.getQuantity();
         }
         return total;
+    }
+    public boolean isNew(){
+        LocalDateTime localTime=LocalDateTime.now();
+        Date currentDate=Date.from(localTime.atZone(ZoneId.systemDefault()).toInstant());
+        long diffInMillies = Math.abs(date.getTime() - currentDate.getTime());
+        long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+        return diff <= 30;
     }
 }

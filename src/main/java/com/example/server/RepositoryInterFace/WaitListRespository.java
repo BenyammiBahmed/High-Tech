@@ -15,13 +15,14 @@ import java.util.List;
 public interface WaitListRespository extends MongoRepository<WaitList,String> {
     @Query(value = "{'article':?0}",exists = true)
     boolean exitArticle(Article article);
-    @Query(value="{'article': ?0}", fields="{'user' : 1 ,'_id':0,'article':0,'quantity':0}")
-    List<User> findUserWaitArticle (Article article);
-    @Query(value = "{'article':?0 ,'user':?0}")
-    WaitList findByArticleAndUser(Article article,User user);
-    @Query(value = "{'user':?0}")
-    List<WaitList>findByUser(User user);
-
+    @Query(value="{'article': {'$ref':'article','$id':?0}}")
+    List<WaitList> findUserWaitArticle (String codeModele);
+    @Query(value = "{'article':{'$ref':'article','$id': ?0}} ,'user':{'$ref':'user','$id':{'$oid': ?0}}}")
+    WaitList findByArticleAndUser(String article,String user);
+    @Query(value = "{'user':{'$ref':'user','$id':{'$oid': ?0}}}")
+    List<WaitList>findByUser(String id);
+   @Query(value = "{'article':{'$ref':'article','$id': ?0}}")
+    void deleteByArticle(String id);
 ////    @Query("{'_id':?0}")
 //    WaitList findByID(String id);
 }

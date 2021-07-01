@@ -1,0 +1,261 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Product detail | HT-Store</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/css/prettyPhoto.css" rel="stylesheet">
+    <link href="/css/price-range.css" rel="stylesheet">
+    <link href="/css/animate.css" rel="stylesheet">
+    <link href="/css/main.css" rel="stylesheet">
+    <link href="/css/responsive.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+          integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+    <link rel="shortcut icon" href="/images/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/images/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/images/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/images/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="/images/ico/apple-touch-icon-57-precomposed.png">
+</head><!--/head-->
+
+<body>
+<header id="header"><!--header-->
+    <div class="header_top"><!--header_top-->
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="contactinfo">
+                        <ul class="nav nav-pills">
+                            <li><a href=""><i class="fa fa-phone"></i> +213 541 84 57 98</a></li>
+                            <li><a href=""><i class="fa fa-envelope"></i> HT.Store.RB@gmail.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!--/header_top-->
+
+    <div class="header-middle"><!--header-middle-->
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="logo pull-left">
+                        <a href="/"><img src="/img/logo.png" alt=""/></a>
+                    </div>
+                </div>
+                <div class="col-sm-8">
+                    <div class="shop-menu pull-right">
+                        <ul class="nav navbar-nav">
+                            <div th:if="${session.user!=null}" >
+                                <li><a href="/USER/HistoriqueAchat"><i class="fas fa-history"></i> Purchase
+                                    History</a></li>
+                                <li><a href="/USER/WaitList"><i class="fa fa-hourglass-start"></i> Pending
+                                    Articles List </a></li>
+                                <li><a href="/USER/PannierPage"><i class="fa fa-shopping-cart"></i> Cart</a></li>
+                                <li><a href="/USER/DemandeRA" ><i class="fa fa-check"></i> Requests State</a></li>
+                                <li><a href="/USER/AccountClientPage"><i class="fa fa-user"></i> Account</a></li>
+                                <li><a href="/Logout"><i class="fa fa-unlock"></i> Logout</a></li>
+                            </div>
+                            <div th:unless="${session.user!=null}" >
+                                <li><a href="/LoginPage"><i class="fa fa-lock"></i> Login</a></li>
+                                <li><a href="/RegistratePage"><i class="fa fa-plus-square"></i> Register</a></li>
+                            </div>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!--/header-middle-->
+
+    <div class="header-bottom"><!--header-bottom-->
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-9">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse"
+                                data-target=".navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
+                    <div class="mainmenu pull-left">
+                        <ul class="nav navbar-nav collapse navbar-collapse">
+                            <li><a href="index.html"><i class="fa fa-home"></i> Home</a></li>
+                            <li class="dropdown"><a href="/ConfigChooseCPU"><i class="fa fa-cogs"></i> PC configuration
+                            </a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="search_box pull-right">
+                        <input type="text" placeholder="Search"/>
+                    </div>
+                </div>
+            </div>
+            <hr>
+
+        </div>
+    </div><!--/header-bottom-->
+</header><!--/header-->
+
+<section>
+    <div class="container">
+        <div class="breadcrumbs">
+            <ol class="breadcrumb">
+                <li><a href="/">Home</a></li>
+                <li class="active">Product details</li>
+            </ol>
+        </div>
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="left-sidebar">
+                    <h2>Category</h2>
+                    <div class="panel-group category-products" id="accordian"><!--category-productsr-->
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title"><a class="categ" href="/CPU">CPU</a></h4>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title"><a href="/GPU">GPU</a></h4>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title"><a href="/RAM">RAM</a></h4>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title"><a href="/MOTHERBOARD">Motherboard</a></h4>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title"><a href="/DISKDUR">Hard Disk</a></h4>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title"><a href="/POWER">PC Power</a></h4>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title"><a href="/BOX">PC Box</a></h4>
+                            </div>
+                        </div>
+                    </div><!--/category-products-->
+
+
+                </div>
+            </div>
+
+            <div class="col-sm-9 padding-right">
+                <div class="col-sm-9 padding-right">
+                    <div class="product-details"><!--product-details-->
+                        <div class="col-sm-5">
+                            <div class="view-product">
+                                <img th:src="@{http://localhost:8080/getPhoto/{image}(image=${article.imageId})}"/>
+                            </div>
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="product-information"><!--/product-information-->
+                                <h2 th:text="${article.name}"></h2>
+                                <p th:text="'Reference :' + ${article.codeModele}"></p>
+                                <p th:text="'Mark :'+ ${article.mark}"></p>
+
+
+                                    <p th:each="ss : ${article.preporite.keySet()}" th:text="${ss} +':'+ ${article.preporite.get(ss)}"> </p>
+
+
+                                <hr>
+                                <hr>
+                                <span>
+									<span th:text="${article.price} +' DA'"></span>
+									<hr>
+									<hr>
+
+
+
+
+									<th:block  th:if="${session.user==null}">
+										<form action="/LoginPage">
+										<button type="submit" class="btn btn-fefault cart">
+											<i class="fa fa-shopping-cart"></i>
+											Login to buy 
+										</button>
+										</form>
+                                    </th:block>
+                                    <th:block th:unless="${session.user==null}">
+										<label>Quantity:</label>
+
+											<th:block th:if="${article.quantity>0}">
+										<form action="/USER/ReserveArticle" method="post">
+											<input type="hidden" name="codeModele" th:value="${article.codeModele}">
+											<input name="quntityReserved" type="text" value="1"
+                                                   th:max="${article.quantity}"/>
+											<button type="submit" class="btn cart">
+												<i class="fa fa-shopping-cart"></i>
+												Add to cart
+											</button>
+										</form>
+                                            </th:block>
+										<th:block th:unless="${article.quantity>0}">
+                                                <form action="/USER/WaitArticle" method="post">
+											<input type="hidden" name="codeModele" th:value="${article.codeModele}">
+											<input name="quntity" type="text" value="1" min="1"
+                                                   />
+											<button type="submit" class="btn cart">
+												<i class="fa fa-spinner"></i>
+                                               Add to Request List
+                                            </button>
+
+                                                    </form>
+                                        </th:block>
+						</th:block>
+								</span>
+                            </div><!--/product-information-->
+                        </div>
+                    </div><!--/product-details-->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer id="footer"><!--Footer-->
+    <div class="footer-bottom">
+        <div class="container">
+            <div class="row">
+                <p class="pull-left">Copyright © 2021 HT-Store Inc. All rights reserved.</p>
+                <p class="pull-right">Designed by <span><a target="_blank"
+                                                           href="https://github.com/BenyammiBahmed/High-Tech">Bahmed Benyammi & Ahmed Rekibi</a></span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+</footer><!--/Footer-->
+
+
+<script src="/js/jquery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/jquery.scrollUp.min.js"></script>
+<script src="/js/price-range.js"></script>
+<script src="/js/jquery.prettyPhoto.js"></script>
+<script src="/js/main.js"></script>
+</body>
+</html>

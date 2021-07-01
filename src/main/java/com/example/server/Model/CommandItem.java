@@ -10,7 +10,7 @@ public class CommandItem {
     private String idCommandItem;
     @DBRef
     private Article article;
-    private int quntity;
+    private int quantity;
     private double price;
 
 
@@ -30,12 +30,12 @@ public class CommandItem {
         this.article = article;
     }
 
-    public int getQuntity() {
-        return quntity;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public void setQuntity(int quntity) {
-        this.quntity = quntity;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     public double getPrice() {

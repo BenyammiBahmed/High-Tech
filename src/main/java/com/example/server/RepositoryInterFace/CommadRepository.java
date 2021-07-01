@@ -11,4 +11,6 @@ public interface CommadRepository extends MongoRepository<Command,String> {
     List<Command> CommandNoDelivred();
     @Query(value = "{ 'itemList':{'$ref' : 'commandItem','$id' :{'$oid': ?0}}}")
     Command findByIthem(String idThem);
+    @Query(value = "{'user':{'$ref':'user','$id':{'$oid': ?0}}}")
+    List<Command>historique (String id);
 }

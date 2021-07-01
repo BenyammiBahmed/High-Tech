@@ -1,22 +1,20 @@
 package com.example.server.Controller;
 
-import com.example.server.Model.Article;
-import com.example.server.Services.ArticleService;
-import com.example.server.Services.LoginService;
+import com.example.server.Model.*;
+import com.example.server.Services.*;
 import com.itextpdf.html2pdf.ConverterProperties;
 import com.itextpdf.html2pdf.HtmlConverter;
 import com.itextpdf.styledxmlparser.css.media.MediaDeviceDescription;
 import com.itextpdf.styledxmlparser.css.media.MediaType;
+import org.bouncycastle.math.raw.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,6 +27,7 @@ import java.io.IOException;
 
 import java.net.URL;
 import java.nio.file.Files;
+import java.util.List;
 import java.util.Map;
 
 
@@ -36,38 +35,162 @@ import java.util.Map;
 @RequestMapping("/ADMIN")
 public class AdminController {
     @Autowired
-    LoginService loginService;
+    LoginService login;
     @Autowired
     ArticleService articleService;
+    @Autowired
+    CommandServcie commandServcie;
+    @Autowired
+    WaitListService waitListService;
+    @Autowired
+    DemandeRAService demandeRAService;
+    @Autowired
+    CompteService compteService;
 
     @GetMapping("")
     public String AdminIndex(HttpSession session, Model model) {
-        if (loginService.chekAdmin(session))
-            return "Admin/index";
+        if (!login.chekAdmin(session))
+            return "redirect:/LoginPage";
         else
-            return "Login";
+            model.addAttribute("commands",commandServcie.commandNoDelivred());
+
+            return "Admin/listeCommandeDashboard";
 
     }
-    @PostMapping("addArticle")
-    public String addArticle(Article article , @RequestParam Map<String,?> properity, MultipartFile image){
+
+    @GetMapping("/Account")
+    public String account(Model model, HttpSession session) {
+        if (!login.chekAdmin(session))
+            return "redirect:/LoginPage";
+        User user = (User) session.getAttribute("user");
+        model.addAttribute("user", user);
+        return "Admin/AccountAdmin";
+    }
+
+    @GetMapping("/ListArticle")
+    public String ListArticle(Model model, HttpSession session) {
+        if (!login.chekAdmin(session))
+            return "redirect:/LoginPage";
+        System.out.println(articleService.articlesNotBlocked().size());
+        model.addAttribute("articles", articleService.articlesNotBlocked());
+        return "Admin/Articles";
+    }
+
+    @PostMapping("/UpDateArticle")
+    public String upDateArticle(HttpSession session, @RequestParam String codeModele, @RequestParam double price,
+                                @RequestParam int quantity) {
+        if (!login.chekAdmin(session))
+            return "redirect:/LoginPage";
+        articleService.updateArticle(codeModele, price, quantity);
+        return "redirect:/ADMIN/ListArticle";
+    }
+
+    @GetMapping("/RemoveArticle/{id}")
+    public String RemoveArticle(@PathVariable String id, HttpSession session) {
+        if (!login.chekAdmin(session))
+            return "redirect:/LoginPage";
+        articleService.deletArticle(id);
+        return "redirect:/ADMIN/ListArticle";
+    }
+
+    @PostMapping("/AddArticle")
+    public String addArticle(HttpSession session, Article article, @RequestParam Map<String, ?> properity, MultipartFile image) {
+        if (!login.chekAdmin(session))
+            return "redirect:/LoginPage";;
         properity.remove("image");
-        articleService.saveArticle(article,properity,image);
-        return "ok";
+        articleService.saveArticle(article, properity, image);
+        return "redirect:/ADMIN/ListArticle";
     }
 
-    @RequestMapping(path = "/pdf")
-    public ResponseEntity<?> getPDF(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    @GetMapping("/ListCommand")
+    public String ListCommand(Model model, HttpSession session) {
+        if (!login.chekAdmin(session))
+            return "redirect:/LoginPage";
+        model.addAttribute("commands",commandServcie.commandNoDelivred());
+        return "Admin/listeCommandeDashboard";
+    }
+    @GetMapping("/DetailCommand/{id}")
+    public String DetailCommand(@PathVariable String id, Model model, HttpSession session) {
+        User user= (User) session.getAttribute("user");
+        if (user==null)
+            return "redirect:/LoginPage";
+        model.addAttribute("command", commandServcie.getCommandbyId(id));
 
+            return "Admin/detailleCommande";
+    }
+    @GetMapping("/WaitList")
+    public String WaitList(HttpSession session, Model model){
+        if (!login.chekAdmin(session))
+            return "redirect:/LoginPage";
+        model.addAttribute("waitList",waitListService.articleWaitList());
+        return "Admin/CustomerRequests";
+    }
+    @GetMapping("/DemandeRA")
+    public String demandeRA(HttpSession session,Model model){
+        if (!login.chekAdmin(session))
+            return "redirect:/LoginPage";
+        List<DemandeRA> demandeRAList=demandeRAService.demandeRANoTreated();
+        System.out.println(demandeRAList.size());
+        model.addAttribute("demandeRA",demandeRAService.demandeRANoTreated());
+        return "Admin/ReturnRequests";
+    }
+    @GetMapping("/DemandeRA/{id}")
+    public String demande(@PathVariable String id, HttpSession session,Model model){
+        if (!login.chekAdmin(session))
+            return "redirect:/LoginPage";
+        model.addAttribute("demandeRA",demandeRAService.getDemande(id));
+        return "Admin/returnRequestInfo";
+    }
+    @GetMapping("/TreatDemande/{accepte}")
+    public String treatDemande(@PathVariable boolean accepte, @RequestParam("id")String id,HttpSession session){
+        if (!login.chekAdmin(session))
+            return "redirect:/LoginPage";
+        demandeRAService.treatDemandeRA(accepte,id);
+        return "redirect:/DemandeRA";
+
+    }
+    @GetMapping("/AjouterArticle")
+    public String AjouterArticle(HttpSession session){
+        if (!login.chekAdmin(session))
+            return "redirect:/LoginPage";
+        return "Admin/AddItem";
+    }
+    @GetMapping("/AjouterArticle/{type}")
+    public String addArticle(HttpSession session,@PathVariable String type){
+        if (!login.chekAdmin(session))
+            return "redirect:/LoginPage";
+        return "Admin/Add"+type;
+    }
+    @PostMapping("/Update")
+    public String update(User user, Addresse addresse, HttpSession session) {
+        if (!login.chekUser(session))
+            return "redirect:/LoginPage";
+
+        user.setAddresse(addresse);
+        user.setRole(Roles.ADMIN);
+        user= compteService.CompteUpdate(user);
+        session.setAttribute("user",user);
+        return "redirect:/ADMIN/Account";
+    }
+    @GetMapping("/BonCommand/{id}")
+    public String BonCommand(HttpSession session,@PathVariable String id,Model model){
+
+        model.addAttribute("commande",commandServcie.getCommandbyId(id));
+        return "Admin/bonCommande";
+    }
+    @RequestMapping(path = "/livredCommand/{id}")
+    public ResponseEntity<?> getPDF(@PathVariable String id, HttpServletRequest request, HttpServletResponse response) throws IOException {
+      commandServcie.liveredCommand(id);
         ConverterProperties properties = new ConverterProperties();
         MediaDeviceDescription mediaDeviceDescription =
                 new MediaDeviceDescription(MediaType.PRINT);
         properties.setMediaDeviceDescription(mediaDeviceDescription);
-        URL url=new URL("http://localhost:8080/");
-        File file=new File("commad.pdf");
-    HtmlConverter.convertToPdf(url.openStream(), new FileOutputStream(file), properties);
+        URL url = new URL("http://localhost:8080/ADMIN/BonCommand/"+id);
+        File file = new File("commad.pdf");
+        HtmlConverter.convertToPdf(url.openStream(), new FileOutputStream(file), properties);
 
         /* extract output as bytes */
-        byte[] bytes= Files.readAllBytes(file.toPath());
+        byte[] bytes = Files.readAllBytes(file.toPath());
 
 
         /* Send the response as downloadable PDF */

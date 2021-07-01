@@ -15,4 +15,10 @@ public class Panier {
         for(PanierIthem ithem:panierIthems)
             ithem.getTimer().cancel();
     }
+    public double total(){
+        double d = 0;
+        for (PanierIthem ithem:panierIthems)
+            d= d+ithem.getQuantity()*ithem.getArticle().getPrice();
+        return d;
+    }
 }

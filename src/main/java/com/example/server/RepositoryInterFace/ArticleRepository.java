@@ -17,6 +17,11 @@ public interface ArticleRepository extends MongoRepository<Article,String> {
     List<Article> findArticle(Pageable pageable);
     @Query(value = "{'type': ?0},{'isBlocked': false}")
     List<Article>findByType(String type,Pageable pageable);
-
+    @Query(value = "{'isBlocked': false}")
+    List<Article>articlesNotBlocked();
+    @Query(value = "{$and:[{'type':'MOTHERBOARD'},{'preporite.socketCPU':?0}]}")
+    List<Article>listMotherBoard(String socket);
+    @Query(value = "{$and:[{'type':'RAM'},{'preporite.ramType':?0}]}")
+    List<Article>listRAM(String ramType);
 
 }

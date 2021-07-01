@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<b>
+<u><h1 align="center">Bon de commande</h1></u><hr>
+<u><h3>Client Informations</h3></u>
+<table border="none"  width="100%" >
+
+	  <tr>
+          <td >FirstName :</td>
+	    <td th:text="${commande.user.firstName}"></td>
+      </tr>
+    <tr>
+
+        <td >LastName :</td>
+	    <td th:text="${commande.user.lastName}"></td>
+    </tr>
+    <tr>
+        <td >Email:</td>
+        <td th:text="${commande.user.email}"></td></tr>
+    <tr>
+        <td >Phone Number:</td>
+
+        <td th:text="${commande.user.phone}"></td>
+    </tr>
+
+</table>
+    <p>Addresse</p>
+    <table>
+        <tr>
+            <td>city</td>
+            <td th:text="${commande.user.addresse.city}"></td>
+        </tr>
+        <tr>
+            <td>state</td>
+            <td th:text="${commande.user.addresse.state}"></td>
+        </tr>
+        <tr>
+            <td>street</td>
+            <td th:text="${commande.user.addresse.street}"></td>
+        </tr>
+        <tr>
+            <td>code/Zip</td>
+            <td th:text="${commande.user.addresse.codeZip}"></td>
+        </tr>
+    </table>
+<hr>
+<u><h3>Article Information</h3></u>
+<table border="1" width="100%" >
+  <tr>
+    <td>Article Name</td>
+    <td>Quantity</td>		
+    <td>Price</td>
+    <td>Total</td>
+  </tr>
+
+  <tr th:each="cmd :${commande.itemList}">
+    <td th:text="${cmd.article.name}"></td>
+    <td th:text="${cmd.quantity}"></td>
+    <td th:text="${cmd.article.price}"></td>
+    <td th:text="${cmd.quantity*cmd.price}"></td>
+  </tr>
+
+</table>
+<table  >
+	<td >Price total =</td><td th:text="${commande.getPriceTotal()}"></td>
+</table>
+</b>
+<hr>
+
+
+</body>
+</html>

@@ -5,6 +5,8 @@ import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,7 +20,12 @@ public class PaymentService {
 
         Map<String, Object> vars = new HashMap<String, Object>();
         vars.put("price",price);
-        vars.put("userCard",userCard);
+        vars.put("firstName",userCard.getFirstName());
+        vars.put("lastName",userCard.getLastName());
+        vars.put("cardNumbre",userCard.getCardNumbre());
+        DateFormat dateFormat =new SimpleDateFormat("yyyy-MM-dd");
+        vars.put("dateExpiration",dateFormat.format(userCard.getDateExpiration()));
+        vars.put("CVV",userCard.getCVV());
 
        String reponse= rt.postForObject(url, vars, String.class);
         return reponse;

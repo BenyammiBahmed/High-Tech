@@ -9,7 +9,7 @@ import java.util.Date;
 
 @Getter
 @Setter
-public class UserCard implements Serializable {
+public class UserCard {
     private String lastName;
     private String firstName;
     private String cardNumbre;

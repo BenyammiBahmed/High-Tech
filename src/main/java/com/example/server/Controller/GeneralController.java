@@ -2,12 +2,9 @@ package com.example.server.Controller;
 
 import com.example.server.Model.*;
 import com.example.server.RepositoryInterFace.ImageRespository;
-import com.example.server.Services.ArticleService;
-import com.example.server.Services.LoginService;
-import com.example.server.Services.CompteService;
-import com.example.server.Services.SearchService;
+import com.example.server.RepositoryInterFace.UserRepository;
+import com.example.server.Services.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.server.DelegatingServerHttpResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,8 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 
@@ -33,11 +28,26 @@ public class GeneralController {
     SearchService searchService;
     @Autowired
     ArticleService articleService;
+    @Autowired
+    DemandeRAService demandeRAService;
+   @Autowired
+   ConfigirationService configirationService;
+   @Autowired
+    UserRepository  repository;
+   @Autowired
+   CryptoService cryptoService;
 
     @GetMapping("/")
     public String index(Model model) {
         model.addAttribute("result", searchService.newArticles());
+
+
         return "index";
+    }
+    @GetMapping("/Logout")
+    public String logout(HttpSession session){
+        session.removeAttribute("user");
+        return "redirect:/";
     }
 
     @GetMapping("/LoginPage")
@@ -48,24 +58,26 @@ public class GeneralController {
 
     @GetMapping("/RegistratePage")
     public String RegistratePage() {
-        return "";
+        return "Registrate";
     }
+
     @PostMapping("/Registrate")
-    public String Registrat(User user,Addresse addresse,Model model,HttpSession session){
+    public String Registrat(User user, Addresse addresse, Model model, HttpSession session) {
         user.setRole(Roles.USER);
         System.out.println("user");
         user.setAddresse(addresse);
-      user=registrate.Registrate(user);
-      if (user==null || user.getIdUser()==null) {
-          model.addAttribute("MessageError", "email hsa already exite");
-          return "";
-      }
-      else
-          return "redirect:/";
+        user = registrate.Registrate(user);
+        if (user == null || user.getIdUser() == null) {
+            model.addAttribute("MessageError", "email hsa already exite");
+            return "redirect:/RegistratePage";
+        } else
+            return "redirect:/";
     }
+
     @GetMapping("/Login")
     public String login(@RequestParam("email") String email, Model model, @RequestParam("password") String password, HttpSession session) {
         User user = loginService.login(email, password);
+        System.out.println(user==null);
         if (user == null) {
             model.addAttribute("MessageError", "Email or password is incorrect");
             return "Login";
@@ -83,20 +95,68 @@ public class GeneralController {
         model.addAttribute("result", searchService.search(search));
         return "index";
     }
+
     @GetMapping("/{type}")
-    public String searchType(@PathVariable String type, Model model){
+    public String searchType(@PathVariable String type, Model model) {
 
         model.addAttribute("result", searchService.searchType(type));
         return "index";
     }
+
     @GetMapping("/Article/{id}")
-        public String articleId(@PathVariable String id,Model model){
-        model.addAttribute("article",searchService.articleById(id));
-        return "";
+    public String articleId(@PathVariable String id, Model model) {
+        System.out.println(id);
+        model.addAttribute("article", searchService.articleById(id));
+        return "Product_details";
 
     }
 
+    @GetMapping("/ReturnRequestInfPage/{id}")
+    public String ReturnRequestInfPage(@PathVariable String id,HttpSession session,Model model){
+        User user= (User) session.getAttribute("user");
+        if (user==null)
+            return "redirect:/LoginPage";
+        model.addAttribute("demandeRA",demandeRAService.getDemande(id));
 
+            return "Admin/returnRequestInfo";
+
+
+    }
+     @GetMapping("/DemandeRA")
+    public String demandeRA(HttpSession session,Model model){
+        User user= (User) session.getAttribute("user");
+        if (user==null)
+            return "redirect:/LoginPage";
+        model.addAttribute("demandeRA",demandeRAService.demandeRANoTreated());
+        if (user.getRole().equals(Roles.ADMIN))
+            return "Admin/ReturnRequests";
+        else
+            return "";
+
+    }
+    @GetMapping("/ConfigChooseCPU")
+    public String configration(Model model){
+        model.addAttribute("listCPU",searchService.searchType("CPU"));
+        return "ConfigChooseCPU";
+    }
+    @GetMapping("/ConfigChooseMB/{id}")
+    public String configrationPage2(@PathVariable String id, Model model,HttpSession session){
+        session.setAttribute("CPU",searchService.articleById(id));
+        model.addAttribute("listMB",configirationService.matherboard(id));
+        return "ConfigChooseMB";
+    }
+    @GetMapping("/ConfigChooseRAM/{id}")
+    public String configrationRAM(@PathVariable String id, Model model,HttpSession session){
+        session.setAttribute("MB",searchService.articleById(id));
+        model.addAttribute("listRAM",configirationService.ram(id));
+        return "ConfigChooseRAM";
+    }
+    @GetMapping("/ConfigChooseFinal/{id}")
+    public String configrationfinal(@PathVariable String id, Model model,HttpSession session){
+        session.setAttribute("RAM",searchService.articleById(id));
+        model.addAttribute("listRAM",configirationService.ram(id));
+        return "ConfigChooseMBFinal";
+    }
     @RequestMapping(value = "/getPhoto/{id}", method = RequestMethod.GET)
     public @ResponseBody
     void getPhoto(@PathVariable String id, HttpServletResponse response) {
@@ -122,4 +182,5 @@ public class GeneralController {
 
         }
     }
+
 }

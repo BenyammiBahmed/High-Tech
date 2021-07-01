@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>High-Tech store</title>
+  <link href="/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/css/font-awesome.min.css" rel="stylesheet">
+  <link href="/css/prettyPhoto.css" rel="stylesheet">
+  <link href="/css/price-range.css" rel="stylesheet">
+  <link href="/css/animate.css" rel="stylesheet">
+  <link href="/css/main.css" rel="stylesheet">
+  <link href="/css/responsive.css" rel="stylesheet">
+</head>
+<body>
+<div class="centerThanks" >
+  <p class="h3" th:text="'Thank you Mr' + ${session.user.firstName}"> </p>
+  <p class="h4"> your command will delivred in 3 days</p>
+  <button class="btn cart"><a href="/" style="color:white;">return to high-tech store</a></button>
+</div>
+</body>
+</html>
