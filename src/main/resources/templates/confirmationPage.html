@@ -107,7 +107,7 @@
 				<div class="col-sm-12">
 					<div class="total_area">
 						<ul>
-							<form action="/USER/ValidPayment" method="post">
+							<form th:action="@{/USER/ValidPayment}" method="post">
 								<li><input type="text"   name="code"></li>
 								<li><button type="submit" class="btn btn-success" value="submit">Validate <i class="fa fa-check"></i></button></li>
 							</form>

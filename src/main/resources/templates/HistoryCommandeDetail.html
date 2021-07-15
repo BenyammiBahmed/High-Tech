@@ -118,8 +118,8 @@
 					</thead>
 					<tbody>
 
-							<form th:each="HA :${historique.itemList}" action="">
-								<tr>
+
+								<tr th:each="HA :${historique.itemList}">
 									<td>
 										<p><input type="text" th:value="${HA.idCommandItem}" name="itemId" style="border-style: none;"></p>
 									</td>
@@ -140,7 +140,7 @@
 									<td><a th:href="@{/USER/returnPage/{id}(id=${HA.idCommandItem}) }"><i class="fas fa-undo-alt fa-2x"></i></a></td>
 
 								</tr>
-							</form>
+
 					</tbody>
 				</table>
 			</div>

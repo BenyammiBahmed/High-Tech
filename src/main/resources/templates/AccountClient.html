@@ -61,11 +61,12 @@
 									<li><a href="/USER/PannierPage"><i class="fa fa-shopping-cart"></i> Cart</a></li>
 									<li><a href="/USER/DemandeRA" ><i class="fa fa-check"></i> Requests State</a></li>
 									<li><a href="/USER/AccountClientPage"><i class="fa fa-user"></i> Account</a></li>
-									<li><a href="/Logout"><i class="fa fa-unlock"></i> Logout</a></li>
-								</div>
+								   <li ><a id="LogoutLink"><i class="fa fa-unlock"></i> Logout</a></li>
+                                </div>
+                            <form id="LogoutForm" method="post" th:action="@{/logout}" disabled></form>
 								<div th:unless="${session.user!=null}" >
-									<li><a href="/LoginPage"><i class="fa fa-lock"></i> Login</a></li>
-									<li><a href="/RegistratePage"><i class="fa fa-plus-square"></i> Register</a></li>
+									<li><a href="/login"><i class="fa fa-lock"></i> Login</a></li>
+									<li><a href="/Registrate"><i class="fa fa-plus-square"></i> Register</a></li>
 								</div>
 							</ul>
                         </div>

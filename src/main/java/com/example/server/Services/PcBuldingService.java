@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ConfigirationService {
+public class PcBuldingService {
     @Autowired
     ArticleRepository repository;
     public List<Article> matherboard(String id){

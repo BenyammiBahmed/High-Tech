@@ -7,7 +7,10 @@
 	};	
 		
 /*scroll to top*/
+$('#LogoutLink').click(function (){
 
+	$('#LogoutForm').submit();
+} )
 $(document).ready(function(){
 	$(function () {
 		$.scrollUp({

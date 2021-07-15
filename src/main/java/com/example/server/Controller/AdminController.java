@@ -49,9 +49,7 @@ public class AdminController {
 
     @GetMapping("")
     public String AdminIndex(HttpSession session, Model model) {
-        if (!login.chekAdmin(session))
-            return "redirect:/LoginPage";
-        else
+
             model.addAttribute("commands",commandServcie.commandNoDelivred());
 
             return "Admin/listeCommandeDashboard";
@@ -60,8 +58,7 @@ public class AdminController {
 
     @GetMapping("/Account")
     public String account(Model model, HttpSession session) {
-        if (!login.chekAdmin(session))
-            return "redirect:/LoginPage";
+
         User user = (User) session.getAttribute("user");
         model.addAttribute("user", user);
         return "Admin/AccountAdmin";
@@ -69,8 +66,7 @@ public class AdminController {
 
     @GetMapping("/ListArticle")
     public String ListArticle(Model model, HttpSession session) {
-        if (!login.chekAdmin(session))
-            return "redirect:/LoginPage";
+
         System.out.println(articleService.articlesNotBlocked().size());
         model.addAttribute("articles", articleService.articlesNotBlocked());
         return "Admin/Articles";
@@ -79,8 +75,7 @@ public class AdminController {
     @PostMapping("/UpDateArticle")
     public String upDateArticle(HttpSession session, @RequestParam String codeModele, @RequestParam double price,
                                 @RequestParam int quantity) {
-        if (!login.chekAdmin(session))
-            return "redirect:/LoginPage";
+
         articleService.updateArticle(codeModele, price, quantity);
         return "redirect:/ADMIN/ListArticle";
     }
@@ -88,15 +83,13 @@ public class AdminController {
     @GetMapping("/RemoveArticle/{id}")
     public String RemoveArticle(@PathVariable String id, HttpSession session) {
         if (!login.chekAdmin(session))
-            return "redirect:/LoginPage";
+            return "redirect:/login";
         articleService.deletArticle(id);
         return "redirect:/ADMIN/ListArticle";
     }
 
     @PostMapping("/AddArticle")
     public String addArticle(HttpSession session, Article article, @RequestParam Map<String, ?> properity, MultipartFile image) {
-        if (!login.chekAdmin(session))
-            return "redirect:/LoginPage";;
         properity.remove("image");
         articleService.saveArticle(article, properity, image);
         return "redirect:/ADMIN/ListArticle";
@@ -104,31 +97,22 @@ public class AdminController {
 
     @GetMapping("/ListCommand")
     public String ListCommand(Model model, HttpSession session) {
-        if (!login.chekAdmin(session))
-            return "redirect:/LoginPage";
         model.addAttribute("commands",commandServcie.commandNoDelivred());
         return "Admin/listeCommandeDashboard";
     }
     @GetMapping("/DetailCommand/{id}")
     public String DetailCommand(@PathVariable String id, Model model, HttpSession session) {
-        User user= (User) session.getAttribute("user");
-        if (user==null)
-            return "redirect:/LoginPage";
         model.addAttribute("command", commandServcie.getCommandbyId(id));
 
             return "Admin/detailleCommande";
     }
     @GetMapping("/WaitList")
     public String WaitList(HttpSession session, Model model){
-        if (!login.chekAdmin(session))
-            return "redirect:/LoginPage";
         model.addAttribute("waitList",waitListService.articleWaitList());
         return "Admin/CustomerRequests";
     }
     @GetMapping("/DemandeRA")
     public String demandeRA(HttpSession session,Model model){
-        if (!login.chekAdmin(session))
-            return "redirect:/LoginPage";
         List<DemandeRA> demandeRAList=demandeRAService.demandeRANoTreated();
         System.out.println(demandeRAList.size());
         model.addAttribute("demandeRA",demandeRAService.demandeRANoTreated());
@@ -136,36 +120,25 @@ public class AdminController {
     }
     @GetMapping("/DemandeRA/{id}")
     public String demande(@PathVariable String id, HttpSession session,Model model){
-        if (!login.chekAdmin(session))
-            return "redirect:/LoginPage";
         model.addAttribute("demandeRA",demandeRAService.getDemande(id));
         return "Admin/returnRequestInfo";
     }
     @GetMapping("/TreatDemande/{accepte}")
     public String treatDemande(@PathVariable boolean accepte, @RequestParam("id")String id,HttpSession session){
-        if (!login.chekAdmin(session))
-            return "redirect:/LoginPage";
         demandeRAService.treatDemandeRA(accepte,id);
         return "redirect:/DemandeRA";
 
     }
     @GetMapping("/AjouterArticle")
     public String AjouterArticle(HttpSession session){
-        if (!login.chekAdmin(session))
-            return "redirect:/LoginPage";
         return "Admin/AddItem";
     }
     @GetMapping("/AjouterArticle/{type}")
     public String addArticle(HttpSession session,@PathVariable String type){
-        if (!login.chekAdmin(session))
-            return "redirect:/LoginPage";
         return "Admin/Add"+type;
     }
     @PostMapping("/Update")
     public String update(User user, Addresse addresse, HttpSession session) {
-        if (!login.chekUser(session))
-            return "redirect:/LoginPage";
-
         user.setAddresse(addresse);
         user.setRole(Roles.ADMIN);
         user= compteService.CompteUpdate(user);
@@ -188,16 +161,9 @@ public class AdminController {
         URL url = new URL("http://localhost:8080/ADMIN/BonCommand/"+id);
         File file = new File("commad.pdf");
         HtmlConverter.convertToPdf(url.openStream(), new FileOutputStream(file), properties);
-
-        /* extract output as bytes */
         byte[] bytes = Files.readAllBytes(file.toPath());
-
-
-        /* Send the response as downloadable PDF */
-
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(org.springframework.http.MediaType.APPLICATION_PDF);
-        // Here you have to set the actual filename of your pdf
         String filename = "output.pdf";
         headers.setContentDispositionFormData(filename, filename);
         headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");

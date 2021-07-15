@@ -118,7 +118,7 @@
 					</thead>
 					<tbody>
 						<th:block th:each="article:${articles}">
-                            <form action="/ADMIN/UpDateArticle" method="post">
+                            <form th:action="@{/ADMIN/UpDateArticle}" method="post">
 								<tr>
 									<td class="id_item">
 										<p><input name="codeModele" th:value="${article.codeModele}" style="border: none;" readonly></p>

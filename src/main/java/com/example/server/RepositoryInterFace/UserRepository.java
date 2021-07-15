@@ -12,6 +12,8 @@ public interface UserRepository extends MongoRepository<User,String> {
     User findByEmailAndPassword(String email, String password);
     @Query(value = "{'email' : ?0 }",exists = true)
     boolean findEmail(String email);
+    @Query(value = "{'email' : ?0 }")
+    User findByEmail(String email);
     @Query(value = "{'addresse':?0}")
     User user(Addresse addresse);
 }

@@ -128,7 +128,7 @@
 			<div class="row">
 					<div class="signup-form"><!--sign up form-->
 						<h2>Add GPU</h2>
-						<form action="/ADMIN/AddArticle" method="post" enctype="multipart/form-data">
+						<form th:action="@{/ADMIN/AddArticle}" method="post" enctype="multipart/form-data">
 
                             <!-----------------GPU----------------->
                             <input type="hidden" name="type" value="GPU">
