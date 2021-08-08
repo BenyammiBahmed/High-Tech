@@ -6,7 +6,8 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <title>Home | HT-Store</title>
-    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <!-- CSS only -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
     <link href="/css/font-awesome.min.css" rel="stylesheet">
     <link href="/css/prettyPhoto.css" rel="stylesheet">
     <link href="/css/price-range.css" rel="stylesheet">
@@ -236,7 +237,7 @@
                                 <div class="single-products">
                                     <div class="productinfo text-center">
 
-                                        <img th:src="@{getPhoto/{image}(image=${article.imageId})}"  height="208" width="183" alt=""/>
+                                        <img th:src="@{/getPhoto/{image}(image=${article.imageId})}"  height="208" width="183" alt=""/>
                                         <!--  <h2>$prix</h2> -->
                                         <h2 th:text="${article.price} +' DA'"></h2>
                                         <!-- <p>$name</p>-->

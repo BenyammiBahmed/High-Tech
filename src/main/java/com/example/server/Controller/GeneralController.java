@@ -6,10 +6,14 @@ import com.example.server.RepositoryInterFace.ImageRespository;
 import com.example.server.Services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.rsocket.RSocketProperties;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.OutputStream;
@@ -25,9 +29,11 @@ public class GeneralController {
     ImageRespository imageRespository;
     @Autowired
     SearchService searchService;
+
     @GetMapping("/")
     public String index(Model model) {
-        System.out.println("hhh");
+
+
         model.addAttribute("result", searchService.newArticles());
         return "index";
     }
@@ -46,6 +52,7 @@ public class GeneralController {
 
     @GetMapping("/Registrate")
     public String RegistratePage() {
+
         return "Registrate";
     }
 
@@ -105,7 +112,7 @@ public class GeneralController {
     @RequestMapping(value = "/getPhoto/{id}", method = RequestMethod.GET)
     public @ResponseBody
     void getPhoto(@PathVariable String id, HttpServletResponse response) {
-        System.out.println("ok");
+
         try {
             Optional<Image> opImage = imageRespository.findById(id);
             Image image = opImage.get();

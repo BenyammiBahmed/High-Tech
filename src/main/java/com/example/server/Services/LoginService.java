@@ -15,10 +15,7 @@ public class LoginService {
     @Autowired
     CryptoService cryptoService;
 
-    public User login(String email, String password){
-        password=cryptoService.Crype(password);
-        return repository.findByEmailAndPassword(email,password);
-    }
+
     public boolean chekAdmin(HttpSession session){
         User user= (User) session.getAttribute("user");
         return (user != null) && (user.getRole().equals(Roles.ADMIN));

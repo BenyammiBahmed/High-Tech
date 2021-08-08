@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <title>Cart | HT-Store</title>
-	<link href="/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
 	<link href="/css/font-awesome.min.css" rel="stylesheet">
 	<link href="/css/prettyPhoto.css" rel="stylesheet">
 	<link href="/css/price-range.css" rel="stylesheet">
@@ -179,6 +179,7 @@
 			<h2 style="color:blue; "><i class="fa fa-crosshairs"></i> Checkout</h2> <hr>
 
 		<div class="row">
+			<button class="btn btn-default " style="margin: 1em"><a th:href="@{/USER/Payment}">pay with payoal</a></button>
 			<form class="form-horizontal" action="/USER/Payment" method="post">
 
 				<div class="form-group">

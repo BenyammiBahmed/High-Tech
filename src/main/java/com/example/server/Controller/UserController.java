@@ -5,6 +5,7 @@ import com.example.server.RepositoryInterFace.AddresseRepository;
 import com.example.server.RepositoryInterFace.ArticleRepository;
 import com.example.server.RepositoryInterFace.UserRepository;
 import com.example.server.RepositoryInterFace.WaitListRespository;
+import com.example.server.ServerClass.Order;
 import com.example.server.ServerClass.Panier;
 import com.example.server.ServerClass.UserCard;
 import com.example.server.Services.*;
@@ -12,6 +13,9 @@ import com.itextpdf.html2pdf.ConverterProperties;
 import com.itextpdf.html2pdf.HtmlConverter;
 import com.itextpdf.styledxmlparser.css.media.MediaDeviceDescription;
 import com.itextpdf.styledxmlparser.css.media.MediaType;
+import com.paypal.api.payments.Links;
+import com.paypal.api.payments.Payment;
+import com.paypal.base.rest.PayPalRESTException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -57,6 +61,7 @@ public class UserController {
 
     @GetMapping("/AccountClientPage")
     public String account(Model model, HttpSession session) {
+
         System.out.println("ok");
         User user = (User) session.getAttribute("user");
         model.addAttribute("user", user);
@@ -93,33 +98,46 @@ public class UserController {
         return "redirect:/";
     }
 
-    @PostMapping("/Payment")
-    public String payment(UserCard userCard, Double price, Model model, HttpSession session) {
-        String reponse = paymentService.chekCard(userCard, price);
-        if (reponse.equals("invalid card")) {
-            model.addAttribute("messageError", reponse);
-            //return to panier page
-            return "redirect:/USER/PannierPage";
-        } else {
-            //return to valid payment page
-            session.setAttribute("codeConfirmation", reponse);
-            return "confirmationPage";
+    @GetMapping("/Payment")
+
+   public String payment(Model model, HttpSession session,HttpServletRequest request) throws PayPalRESTException {
+
+        Order order=new Order();
+        Panier panier= (Panier) session.getAttribute("pannier");
+        order.setPrice(panier.total());
+        order.setCurrency("USD");
+        order.setDescription("Test payment");
+        order.setIntent("sale");
+        order.setMethod("paypal");
+        String url= request.getRequestURL().toString().replace(request.getServletPath(),"");
+        Payment payment= paymentService.createPayment
+               (order,url);
+        for(Links link:payment.getLinks()) {
+            if(link.getRel().equals("approval_url")) {
+                return "redirect:"+link.getHref();
+            }
         }
+        return "redirect:/";
     }
-
     @PostMapping("/ValidPayment")
-    public String validPayment(@RequestParam("code") String code, Model model, HttpSession session) {
-        String reponse = paymentService.validPayment((String) session.getAttribute("codeConfirmation"), code);
-        if (reponse.equals("ok")) {
-            panierService.validPanier((Panier) session.getAttribute("pannier"), (User) session.getAttribute("user"));
-            model.addAttribute("message", "payment valid");
-            session.removeAttribute("pannier");
-            return "Thanks";
+    public String validPayment(@RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId, Model model, HttpSession session) {
+        try {
 
-        } else {
-            model.addAttribute("messageError", "incrrect code");
-            return "confirmationPage";
+            Payment payment = paymentService.executePayment(paymentId, payerId);
+            System.out.println(payment.toJSON());
+            if (payment.getState().equals("approved")) {
+                panierService.validPanier((Panier) session.getAttribute("pannier"), (User) session.getAttribute("user"));
+             model.addAttribute("message", "payment valid");
+            session.removeAttribute("pannier");
+                return "Thanks";
+            }
+        } catch (PayPalRESTException e) {
+            System.out.println(e.getMessage());
         }
+        return "redirect:/";
+//
+//
+//
     }
 
     @GetMapping("/PannierPage")
