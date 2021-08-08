@@ -20,7 +20,7 @@ public class DemandeRAService {
     CommandIthemRespository commandIthemRespository;
     public void save(String id, Date date,String rasion,User user,int quantity){
        Optional <CommandItem>commandItem= commandIthemRespository.findById(id);
-       if (!commandItem.isEmpty()){
+       if (!commandItem.isPresent()){
            DemandeRA demandeRA=new DemandeRA();
            demandeRA.setUser(user);
            demandeRA.setDatebuy(date);
