@@ -30,7 +30,7 @@ public class CompteService {
     }
     public User CompteUpdate(User user){
        Optional<User> userop = repository.findById(user.getIdUser());
-       if (!userop.isEmpty())
+       if (!userop.isPresent())
        {
            user.setPassword(userop.get().getPassword());
           return repository.save(user);

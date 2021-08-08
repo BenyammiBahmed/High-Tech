@@ -30,7 +30,7 @@ public class CommandServcie {
     }
     public Command getCommandbyId(String id){
         Optional<Command> command =commadRepository.findById(id);
-        if (command.isEmpty())
+        if (command.isPresent())
             return null;
         return command.get();
     }
