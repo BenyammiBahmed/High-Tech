@@ -14,7 +14,7 @@
     <name>Server</name>
     <description>Demo project for Spring Boot</description>
     <properties>
-        <java.version>16.0.2</java.version>
+        <java.runtime.version>16.0.2</java.runtime.version>
     </properties>
     <dependencies>
         <dependency>
