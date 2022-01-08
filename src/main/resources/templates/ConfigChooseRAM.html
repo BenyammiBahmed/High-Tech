@@ -3,7 +3,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <html lang="en">
 <head>
-<?import Modele.Article;>
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
@@ -139,7 +139,7 @@
 										<div class="single-products">
 											<div class="productinfo text-center">
 
-												<img th:src="@{http://localhost:8080/getPhoto/{image}(image=${article.imageId})}" height="208" width="183" alt=""/>
+												<img th:src="@{/getPhoto/{image}(image=${article.imageId})}" height="208" width="183" alt=""/>
 												<!--  <h2>$prix</h2> -->
 												<h2 th:text="${article.price}+' DA'"></h2>
 												<!-- <p>$name</p>-->
